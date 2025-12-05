@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PT_Android_iliaMashin</string>
+    <string name="repos_list_title">Github Repositories</string>
+    <string name="repos_list_empty">Start exploring</string>
+</resources>

@@ -1,0 +1,94 @@
+# gradle/libs.versions.toml
+
+[versions]
+androidGradlePlugin = "8.13.1"
+kotlin = "2.1.10"
+ksp = "2.1.10-1.0.29"
+hilt = "2.51.1"
+
+
+# AndroidX / Compose
+compose-bom = "2024.09.02"
+activity-compose = "1.9.2"
+lifecycle = "2.8.6"
+navigation-compose = "2.7.7"
+hilt-navigation-compose = "1.2.0"
+
+# KotlinX
+coroutines-bom = "1.8.1"
+serialization-json = "1.7.1"
+
+# Networking
+retrofit = "2.11.0"
+retrofit-kxser = "1.0.0"    # JakeWharton converter for kotlinx.serialization
+okhttp-bom = "4.12.0"
+
+# Testing
+junit4 = "4.13.2"
+mockk = "1.14.6"
+androidx-test-ext-junit = "1.3.0"
+androidx-test-runner = "1.7.0"
+androidx-test-core = "1.7.0"
+espresso = "3.7.0"
+
+[plugins]
+android-application = { id = "com.android.application",                 version.ref = "androidGradlePlugin" }
+kotlin-android      = { id = "org.jetbrains.kotlin.android",            version.ref = "kotlin" }
+kotlin-compose      = { id = "org.jetbrains.kotlin.plugin.compose",     version.ref = "kotlin" }
+kotlin-serialization= { id = "org.jetbrains.kotlin.plugin.serialization",version.ref = "kotlin" }
+hilt                = { id = "com.google.dagger.hilt.android",          version.ref = "hilt" }
+ksp                 = { id = "com.google.devtools.ksp",                 version.ref = "ksp" }
+
+[libraries]
+# --- BOMs ---
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+okhttp-bom           = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttp-bom" }
+kotlinx-coroutines-bom = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "coroutines-bom" }
+
+# --- Compose UI (versions from BOM) ---
+androidx-compose-ui                 = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-graphics        = { module = "androidx.compose.ui:ui-graphics" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-ui-tooling         = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-test-junit4     = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-compose-ui-test-manifest   = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-material3                  = { module = "androidx.compose.material3:material3" }
+
+# Activity + Lifecycle
+androidx-activity-compose           = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+androidx-lifecycle-runtime-ktx      = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose= { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+
+# Navigation (Compose)
+androidx-navigation-compose         = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+
+# Hilt + Compose helper
+hilt-android                        = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler                       = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+androidx-hilt-navigation-compose    = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+hilt-android-testing                = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+
+# Coroutines (from BOM)
+kotlinx-coroutines-android          = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android" }
+kotlinx-coroutines-test             = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test" }
+
+# Serialization
+kotlinx-serialization-json          = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
+
+# Networking
+retrofit-core                       = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-kotlinx-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-kxser" }
+okhttp                              = { module = "com.squareup.okhttp3:okhttp" }                # from BOM
+okhttp-logging                      = { module = "com.squareup.okhttp3:logging-interceptor" }   # from BOM
+okhttp-mockwebserver3-junit5        = { module = "com.squareup.okhttp3:mockwebserver" }         # from BOM
+
+# Unit testing
+junit4                              = { module = "junit:junit", version.ref = "junit4" }
+mockk                               = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android                       = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+
+# Android instrumented tests
+androidx-test-ext-junit             = { module = "androidx.test.ext:junit", version.ref = "androidx-test-ext-junit" }
+androidx-test-runner                = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
+androidx-test-core                = { module = "androidx.test:core", version.ref = "androidx-test-core" }
+espresso-core                       = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
