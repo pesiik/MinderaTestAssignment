@@ -18,8 +18,12 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import mc.pesiik.pt_android_iliamashin.R
@@ -37,6 +41,10 @@ fun SearchAppBar(
     onBackClicked: () -> Unit,
 ) {
     if (state.isInSearchMode) {
+        val focusRequester = remember { FocusRequester() }
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -49,6 +57,7 @@ fun SearchAppBar(
             AppBarWithSearchAndTitle(
                 state = state,
                 onQueryChange = onQueryChange,
+                focusRequester = focusRequester
             )
         }
     } else {
@@ -92,6 +101,7 @@ private fun BackButton(
 @Composable
 private fun AppBarWithSearchAndTitle(
     state: ReposListState,
+    focusRequester: FocusRequester,
     onQueryChange: (String) -> Unit,
 ) {
     TextField(
@@ -99,7 +109,8 @@ private fun AppBarWithSearchAndTitle(
             .wrapContentWidth()
             .height(
                 TopAppBarDefaults.TopAppBarExpandedHeight
-            ),
+            )
+            .focusRequester(focusRequester),
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = PurpleGrey40,
             unfocusedIndicatorColor = PurpleGrey40,
