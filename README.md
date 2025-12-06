@@ -45,5 +45,5 @@
 
 
 - Have you used AI? 
-- [ ] Yes
+- [√] Yes
 - [ ] No
