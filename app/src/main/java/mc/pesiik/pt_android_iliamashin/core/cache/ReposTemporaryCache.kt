@@ -1,4 +1,4 @@
-package mc.pesiik.pt_android_iliamashin.core.navigation.cache
+package mc.pesiik.pt_android_iliamashin.core.cache
 
 import mc.pesiik.pt_android_iliamashin.domain.Repo
 import javax.inject.Inject

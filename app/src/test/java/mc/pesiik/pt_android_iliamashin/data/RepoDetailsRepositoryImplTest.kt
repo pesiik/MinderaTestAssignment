@@ -2,7 +2,7 @@ package mc.pesiik.pt_android_iliamashin.data
 
 import io.mockk.every
 import io.mockk.mockk
-import mc.pesiik.pt_android_iliamashin.core.navigation.cache.ReposTemporaryCache
+import mc.pesiik.pt_android_iliamashin.core.cache.ReposTemporaryCache
 import mc.pesiik.pt_android_iliamashin.domain.Repo
 import org.junit.Assert.assertEquals
 import org.junit.Before

@@ -4,7 +4,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import mc.pesiik.pt_android_iliamashin.core.navigation.cache.ReposTemporaryCache
+import mc.pesiik.pt_android_iliamashin.core.cache.ReposTemporaryCache
 import mc.pesiik.pt_android_iliamashin.data.mapper.ReposMapper
 import mc.pesiik.pt_android_iliamashin.data.model.RepoDto
 import mc.pesiik.pt_android_iliamashin.data.model.ReposDto

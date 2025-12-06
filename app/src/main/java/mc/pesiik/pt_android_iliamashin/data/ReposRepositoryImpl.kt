@@ -1,6 +1,6 @@
 package mc.pesiik.pt_android_iliamashin.data
 
-import mc.pesiik.pt_android_iliamashin.core.navigation.cache.ReposTemporaryCache
+import mc.pesiik.pt_android_iliamashin.core.cache.ReposTemporaryCache
 import mc.pesiik.pt_android_iliamashin.data.mapper.ReposMapper
 import mc.pesiik.pt_android_iliamashin.domain.Repo
 import mc.pesiik.pt_android_iliamashin.domain.ReposRepository
