@@ -23,6 +23,9 @@ class ReposMapperTest {
             description = "This is a test repository",
             stargazersCount = 10,
             language = "Kotlin",
+            forksCount = 5,
+            watchersCount = 15,
+            updatedAt = "2024-06-01T12:00:00Z"
         )
 
         // When
@@ -37,6 +40,9 @@ class ReposMapperTest {
             description = "This is a test repository",
             starCount = 10,
             language = "Kotlin",
+            forkCount = 5,
+            watcherCount = 15,
+            lastUpdated = "2024-06-01T12:00:00Z"
         )
 
         assertEquals(expectedDomain, repoDomain)

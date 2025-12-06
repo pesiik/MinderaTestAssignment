@@ -10,6 +10,9 @@ data class RepoDto(
     val owner: OwnerDto,
     val description: String?,
     @SerialName("stargazers_count") val stargazersCount: Int,
+    @SerialName("forks_count") val forksCount: Int,
+    @SerialName("watchers_count") val watchersCount: Int,
+    @SerialName("updated_at") val updatedAt: String,
     val language: String?,
 ) {
 

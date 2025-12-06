@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import mc.pesiik.pt_android_iliamashin.core.navigation.RepoDetailsDestination
 import mc.pesiik.pt_android_iliamashin.core.navigation.ReposListDestination
+import mc.pesiik.pt_android_iliamashin.ui.details.navigateToRepoDetails
 import mc.pesiik.pt_android_iliamashin.ui.details.repoDetailsScreen
 import mc.pesiik.pt_android_iliamashin.ui.list.reposListScreen
 
@@ -20,7 +21,7 @@ fun AppNavHost(
     ) {
         reposListScreen(
             onRepoClick = { repoId ->
-                navController.navigate(RepoDetailsDestination.createRoute(repoId))
+                navController.navigateToRepoDetails(repoId)
             },
             onClose = onClose
         )

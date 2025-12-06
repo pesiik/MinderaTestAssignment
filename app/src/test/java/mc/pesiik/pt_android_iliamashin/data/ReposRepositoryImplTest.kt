@@ -38,6 +38,9 @@ class ReposRepositoryImplTest {
             description = "Description 1",
             stargazersCount = 100,
             language = "Kotlin",
+            forksCount = 50,
+            watchersCount = 75,
+            updatedAt = "2024-01-15T10:30:00Z"
         )
         val reposDto = ReposDto(
             incompleteResults = false,

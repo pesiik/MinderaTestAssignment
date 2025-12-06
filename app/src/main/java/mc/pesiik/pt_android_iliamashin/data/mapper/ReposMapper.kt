@@ -15,6 +15,9 @@ class ReposMapper @Inject constructor() {
             ownerAvatarUrl = repoDto.owner.avatarUrl,
             description = repoDto.description,
             starCount = repoDto.stargazersCount,
+            forkCount = repoDto.forksCount,
+            watcherCount = repoDto.watchersCount,
+            lastUpdated = repoDto.updatedAt,
             language = repoDto.language,
         )
     }

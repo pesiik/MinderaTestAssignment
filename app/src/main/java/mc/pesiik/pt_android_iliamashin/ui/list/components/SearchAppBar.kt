@@ -75,9 +75,7 @@ fun SearchAppBar(
                 scrolledContainerColor = PurpleGrey40,
             ),
             title = {
-                if (!state.isInSearchMode) {
-                    AppBarTitle()
-                }
+                AppBarTitle()
             },
         )
     }

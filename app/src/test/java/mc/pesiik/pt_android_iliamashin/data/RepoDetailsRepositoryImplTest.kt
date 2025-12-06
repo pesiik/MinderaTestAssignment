@@ -30,7 +30,10 @@ class RepoDetailsRepositoryImplTest {
             ownerAvatarUrl = "http://example.com/avatar.png",
             description = "Test description",
             starCount = 100,
-            language = "Kotlin"
+            language = "Kotlin",
+            forkCount = 50,
+            watcherCount = 75,
+            lastUpdated = "2024-01-15T10:30:00Z"
         )
         every {  (reposTemporaryCache.getRepoById(repoId)) } returns expectedRepo
 

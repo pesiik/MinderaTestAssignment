@@ -50,6 +50,9 @@ class ReposListStateMapperTest {
             description = "New description",
             starCount = 50,
             language = "Java",
+            forkCount = 10,
+            watcherCount = 20,
+            lastUpdated = "2024-06-01T12:00:00Z"
         )
         val domainResult = Result.success(listOf(repo))
         val previousState = ReposListState(errorMessage = "Previous error")
@@ -87,6 +90,9 @@ class ReposListStateMapperTest {
             description = "Updated description",
             starCount = 150,
             language = "Python",
+            forkCount = 30,
+            watcherCount = 40,
+            lastUpdated = "2024-06-02T15:00:00Z"
         )
         val domainResult = Result.success(listOf(repo))
         val previousState = ReposListState(
@@ -149,6 +155,9 @@ class ReposListStateMapperTest {
             description = "New description",
             starCount = 50,
             language = "Java",
+            forkCount = 10,
+            watcherCount = 20,
+            lastUpdated = "2024-06-01T12:00:00Z",
         )
         val domainResult = Result.success(listOf(newRepo))
 

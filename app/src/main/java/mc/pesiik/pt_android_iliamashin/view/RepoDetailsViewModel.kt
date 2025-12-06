@@ -5,13 +5,31 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import mc.pesiik.pt_android_iliamashin.domain.RepoDetailsRepository
 
 @HiltViewModel(assistedFactory = RepoDetailsViewModel.Factory::class)
 class RepoDetailsViewModel @AssistedInject constructor(
     @Assisted private val repoId: Int,
-    private val repoDetailsRepository: RepoDetailsRepository
+    private val repoDetailsRepository: RepoDetailsRepository,
+    private val repoDetailStateMapper: RepoDetailStateMapper,
 ) : ViewModel() {
+
+
+    private val _state = MutableStateFlow(RepoDetailUiState())
+    val state: StateFlow<RepoDetailUiState> = _state.asStateFlow()
+
+    init {
+        loadRepoDetails()
+    }
+
+    private fun loadRepoDetails() {
+        val repo = repoDetailsRepository.getRepoDetails(repoId)
+        val uiState = repoDetailStateMapper.mapToUiState(repo)
+        _state.value = uiState
+    }
 
     @AssistedFactory
     interface Factory {

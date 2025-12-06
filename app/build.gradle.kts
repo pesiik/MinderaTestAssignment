@@ -108,6 +108,9 @@ dependencies {
     // Image loading: Coil Compose
     implementation(libs.coil.compose)
 
+    // --- Other dependencies ---
+    implementation(libs.kotlinx.datetime)
+
     // --- Unit tests ---
     testImplementation(libs.junit4)
     testImplementation(libs.mockk)
