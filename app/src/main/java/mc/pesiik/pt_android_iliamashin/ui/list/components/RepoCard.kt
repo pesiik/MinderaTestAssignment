@@ -59,6 +59,8 @@ fun RepoCard(
             Text(
                 text = repo.name,
                 style = Typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
