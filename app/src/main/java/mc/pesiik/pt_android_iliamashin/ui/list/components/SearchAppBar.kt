@@ -1,4 +1,4 @@
-package mc.pesiik.pt_android_iliamashin.ui.components
+package mc.pesiik.pt_android_iliamashin.ui.list.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row

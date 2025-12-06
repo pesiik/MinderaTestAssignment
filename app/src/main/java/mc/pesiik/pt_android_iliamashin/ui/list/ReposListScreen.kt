@@ -1,4 +1,4 @@
-package mc.pesiik.pt_android_iliamashin.ui
+package mc.pesiik.pt_android_iliamashin.ui.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,19 +12,36 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import mc.pesiik.pt_android_iliamashin.ui.components.ReposList
-import mc.pesiik.pt_android_iliamashin.ui.components.SearchAppBar
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import mc.pesiik.pt_android_iliamashin.core.navigation.ReposListDestination
+import mc.pesiik.pt_android_iliamashin.ui.list.components.ReposList
+import mc.pesiik.pt_android_iliamashin.ui.list.components.SearchAppBar
 import mc.pesiik.pt_android_iliamashin.ui.theme.Purple40
 import mc.pesiik.pt_android_iliamashin.view.ReposListScreenEvent
 import mc.pesiik.pt_android_iliamashin.view.ReposListViewModel
 
+fun NavGraphBuilder.reposListScreen(
+    onRepoClick: (Int) -> Unit,
+    onClose: () -> Unit,
+) {
+    composable(route = ReposListDestination.route) {
+        ReposScreenList(
+            onRepoClick = onRepoClick,
+            onClose = onClose,
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReposScreenList(
-    vm: ReposListViewModel,
+    viewModel: ReposListViewModel = hiltViewModel(),
+    onRepoClick: (Int) -> Unit,
     onClose: () -> Unit,
 ) {
-    val state by vm.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     when {
         state.shouldCloseApp -> onClose()
@@ -50,24 +67,22 @@ fun ReposScreenList(
                     SearchAppBar(
                         state = state,
                         onQueryChange = { query ->
-                            vm.onEvent(ReposListScreenEvent.SearchRepos(query))
+                            viewModel.onEvent(ReposListScreenEvent.SearchRepos(query))
                         },
                         onSearchModeToggle = { isInSearchMode ->
-                            vm.onEvent(ReposListScreenEvent.ToggleSearchMode(isInSearchMode))
+                            viewModel.onEvent(ReposListScreenEvent.ToggleSearchMode(isInSearchMode))
                         },
                         onBackClicked = {
-                            vm.onEvent(ReposListScreenEvent.BackButtonClicked)
+                            viewModel.onEvent(ReposListScreenEvent.BackButtonClicked)
                         },
                     )
                 }
             ) { paddingValues ->
                 ReposList(
                     state = state,
-                    onItemClick = { repoId ->
-                        vm.onEvent(ReposListScreenEvent.RepoClicked(repoId))
-                    },
+                    onItemClick = onRepoClick,
                     onLastItemVisible = { lastVisiblePosition ->
-                        vm.onEvent(ReposListScreenEvent.ScrollReposList(lastVisiblePosition))
+                        viewModel.onEvent(ReposListScreenEvent.ScrollReposList(lastVisiblePosition))
                     },
                     paddingValues = paddingValues,
                 )

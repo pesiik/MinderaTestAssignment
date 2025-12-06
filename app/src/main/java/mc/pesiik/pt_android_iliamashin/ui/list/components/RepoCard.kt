@@ -1,4 +1,4 @@
-package mc.pesiik.pt_android_iliamashin.ui.components
+package mc.pesiik.pt_android_iliamashin.ui.list.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
@@ -43,14 +43,14 @@ fun RepoCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .aspectRatio(1f),
+            .aspectRatio(1f)
+            .clickable { onClick(repo.id) },
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-                .clickable { onClick(repo.id) },
+                .padding(16.dp),
         ) {
             OwnerBlock(
                 ownerLogin = repo.ownerLogin,

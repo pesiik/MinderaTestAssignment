@@ -1,4 +1,4 @@
-package mc.pesiik.pt_android_iliamashin.ui.components
+package mc.pesiik.pt_android_iliamashin.ui.list.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

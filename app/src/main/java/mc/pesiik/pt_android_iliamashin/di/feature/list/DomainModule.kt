@@ -1,4 +1,4 @@
-package mc.pesiik.pt_android_iliamashin.di.feature
+package mc.pesiik.pt_android_iliamashin.di.feature.list
 
 import dagger.Binds
 import dagger.Module

@@ -56,7 +56,6 @@ class ReposListViewModel @Inject constructor(
         when (event) {
             is ReposListScreenEvent.SearchRepos -> tryToSearch(event.query)
             is ReposListScreenEvent.ToggleSearchMode -> toggleSearchMode(event.isInSearchMode)
-            is ReposListScreenEvent.RepoClicked -> Unit // todo
             is ReposListScreenEvent.ScrollReposList -> tryToLoadNextPage(event.lastVisiblePosition)
             is ReposListScreenEvent.SortClicked -> Unit // todo
             is ReposListScreenEvent.BackButtonClicked -> backButtonClicked()

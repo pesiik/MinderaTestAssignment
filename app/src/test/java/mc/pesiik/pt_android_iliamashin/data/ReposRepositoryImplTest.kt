@@ -4,8 +4,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import mc.pesiik.pt_android_iliamashin.data.GitReposService
-import mc.pesiik.pt_android_iliamashin.data.ReposRepositoryImpl
+import mc.pesiik.pt_android_iliamashin.core.navigation.cache.ReposTemporaryCache
 import mc.pesiik.pt_android_iliamashin.data.mapper.ReposMapper
 import mc.pesiik.pt_android_iliamashin.data.model.RepoDto
 import mc.pesiik.pt_android_iliamashin.data.model.ReposDto
@@ -17,9 +16,13 @@ class ReposRepositoryImplTest {
 
     private val service: GitReposService = mockk()
     private val mapper: ReposMapper = mockk()
+    private val cache: ReposTemporaryCache = mockk(
+        relaxUnitFun = true
+    )
     private val repository = ReposRepositoryImpl(
         gitReposService = service,
-        reposMapper = mapper
+        reposMapper = mapper,
+        reposTemporaryCache = cache,
     )
 
     @Test
@@ -67,5 +70,6 @@ class ReposRepositoryImplTest {
             )
         }
         coVerify { mapper.mapDtoToDomain(any()) }
+        coVerify { cache.putRepo(domainRepo) }
     }
 }
