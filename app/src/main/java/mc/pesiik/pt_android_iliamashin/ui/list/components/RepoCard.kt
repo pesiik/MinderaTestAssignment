@@ -42,7 +42,6 @@ fun RepoCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
             .aspectRatio(1f)
             .clickable { onClick(repo.id) },
         shape = RoundedCornerShape(8.dp)

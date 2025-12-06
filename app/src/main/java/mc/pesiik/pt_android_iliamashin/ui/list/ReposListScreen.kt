@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import mc.pesiik.pt_android_iliamashin.core.navigation.ReposListDestination
 import mc.pesiik.pt_android_iliamashin.ui.list.components.ReposList
 import mc.pesiik.pt_android_iliamashin.ui.list.components.SearchAppBar
+import mc.pesiik.pt_android_iliamashin.ui.list.components.SortDialog
 import mc.pesiik.pt_android_iliamashin.ui.theme.Purple40
 import mc.pesiik.pt_android_iliamashin.view.ReposListScreenEvent
 import mc.pesiik.pt_android_iliamashin.view.ReposListViewModel
@@ -54,6 +55,15 @@ fun ReposScreenList(
             Text(text = "Error")
         }
 
+        state.isSortMenuOpened -> {
+            SortDialog(
+                onSortOptionSelected = { sortOption ->
+                    viewModel.onEvent(ReposListScreenEvent.SortedByOptionSelected(sortOption))
+                },
+                currentSortOption = state.selectedSortOption,
+            )
+        }
+
 
         else -> {
             Scaffold(
@@ -71,6 +81,9 @@ fun ReposScreenList(
                         },
                         onSearchModeToggle = { isInSearchMode ->
                             viewModel.onEvent(ReposListScreenEvent.ToggleSearchMode(isInSearchMode))
+                        },
+                        onSortClicked = {
+                            viewModel.onEvent(ReposListScreenEvent.SortClicked)
                         },
                         onBackClicked = {
                             viewModel.onEvent(ReposListScreenEvent.BackButtonClicked)

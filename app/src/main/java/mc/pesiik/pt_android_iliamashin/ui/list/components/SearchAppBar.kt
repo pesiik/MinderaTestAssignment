@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,6 +39,7 @@ fun SearchAppBar(
     state: ReposListState,
     onQueryChange: (String) -> Unit,
     onSearchModeToggle: (Boolean) -> Unit,
+    onSortClicked: () -> Unit,
     onBackClicked: () -> Unit,
 ) {
     if (state.isInSearchMode) {
@@ -59,6 +61,7 @@ fun SearchAppBar(
                 onQueryChange = onQueryChange,
                 focusRequester = focusRequester
             )
+            SortButton(onSortClicked)
         }
     } else {
         TopAppBar(
@@ -66,7 +69,7 @@ fun SearchAppBar(
                 IconButton(onClick = { onSearchModeToggle(true) }) {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "Search"
+                        contentDescription = stringResource(R.string.repos_list_search_content_description)
                     )
                 }
             },
@@ -123,17 +126,14 @@ private fun AppBarWithSearchAndTitle(
 }
 
 @Composable
-private fun TrallingIcon(
-    searchQuery: String,
-    onQueryChange: (String) -> Unit
+private fun SortButton(
+    onSortClicked: () -> Unit,
 ) {
-    if (searchQuery.isNotEmpty()) {
-        IconButton(onClick = { onQueryChange("") }) {
-            Icon(
-                imageVector = Icons.Default.Clear,
-                contentDescription = "Clear"
-            )
-        }
+    IconButton(onClick = onSortClicked) {
+        Icon(
+            imageVector = Icons.Default.Settings,
+            contentDescription = stringResource(R.string.repo_list_sort_button)
+        )
     }
 }
 

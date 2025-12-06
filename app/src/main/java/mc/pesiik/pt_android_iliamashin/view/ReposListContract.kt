@@ -6,6 +6,7 @@ sealed class ReposListScreenEvent {
     data class ToggleSearchMode(val isInSearchMode: Boolean) : ReposListScreenEvent()
     data class ScrollReposList(val lastVisiblePosition: Int) : ReposListScreenEvent()
     data object SortClicked : ReposListScreenEvent()
+    data class SortedByOptionSelected(val sortOption: ReposSortOption) : ReposListScreenEvent()
     data object BackButtonClicked : ReposListScreenEvent()
 }
 
@@ -16,6 +17,8 @@ data class ReposListState(
     val searchQuery: String = "",
     val errorMessage: String? = null,
     val shouldCloseApp: Boolean = false,
+    val isSortMenuOpened: Boolean = false,
+    val selectedSortOption: ReposSortOption = ReposSortOption.NOT_CHOSEN,
 ) {
     val isEmpty = repos.isEmpty()
     val isError = errorMessage != null
@@ -30,3 +33,10 @@ data class RepoUiModel(
     val starCount: Int,
     val language: String?,
 )
+
+enum class ReposSortOption(val value: String?) {
+    STARS("stars"),
+    FORKS("forks"),
+    UPDATED("updated"),
+    NOT_CHOSEN(null),
+}

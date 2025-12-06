@@ -12,8 +12,8 @@ class ReposRepositoryImpl @Inject constructor(
     private val reposTemporaryCache: ReposTemporaryCache,
 ) : ReposRepository {
 
-    override suspend fun searchRepos(query: String, perPage: Int, page: Int): List<Repo> {
-        val reposDtos = gitReposService.searchRepos(query, perPage, page)
+    override suspend fun searchRepos(query: String, perPage: Int, page: Int, sort: String?): List<Repo> {
+        val reposDtos = gitReposService.searchRepos(query, perPage, page, sort)
         return reposDtos.items.map { repoDto ->
             reposMapper.mapDtoToDomain(repoDto).also(reposTemporaryCache::putRepo)
         }

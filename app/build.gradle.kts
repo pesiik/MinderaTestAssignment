@@ -112,7 +112,9 @@ dependencies {
     implementation(libs.kotlinx.datetime)
 
     // --- Unit tests ---
-    testImplementation(libs.junit4)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.params)
+    testRuntimeOnly(libs.junit.jupiter.engine)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.okhttp.mockwebserver3.junit5)
@@ -126,7 +128,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit5)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     androidTestImplementation(libs.mockk.android)
 }

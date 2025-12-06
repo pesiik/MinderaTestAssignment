@@ -57,7 +57,8 @@ class ReposListViewModel @Inject constructor(
             is ReposListScreenEvent.SearchRepos -> tryToSearch(event.query)
             is ReposListScreenEvent.ToggleSearchMode -> toggleSearchMode(event.isInSearchMode)
             is ReposListScreenEvent.ScrollReposList -> tryToLoadNextPage(event.lastVisiblePosition)
-            is ReposListScreenEvent.SortClicked -> Unit // todo
+            is ReposListScreenEvent.SortClicked -> sortMenu(show = true)
+            is ReposListScreenEvent.SortedByOptionSelected -> sortReposList(sortOption = event.sortOption)
             is ReposListScreenEvent.BackButtonClicked -> backButtonClicked()
         }
     }
@@ -72,12 +73,14 @@ class ReposListViewModel @Inject constructor(
 
     private fun performSearch(query: String, page: Int = 1) {
         // todo Should add skeleton/loading state
+        val sortOption = _state.value.selectedSortOption
         launchCatching(
             block = {
                 reposRepository.searchRepos(
                     query = query,
                     perPage = PER_PAGE_COUNT,
-                    page = page
+                    page = page,
+                    sort = sortOption.value
                 )
             },
             onComplete = { data ->
@@ -110,6 +113,27 @@ class ReposListViewModel @Inject constructor(
             pageMutableState.update { currentPage ->
                 currentPage + 1
             }
+        }
+    }
+
+    private fun sortMenu(show: Boolean) {
+        _state.update {
+            it.copy(
+                isSortMenuOpened = show
+            )
+        }
+    }
+
+    private fun sortReposList(sortOption: ReposSortOption) {
+        sortMenu(show = false)
+        _state.update {
+            it.copy(
+                selectedSortOption = sortOption
+            )
+        }
+        val currentQuery = _state.value.searchQuery
+        if (currentQuery.isNotBlank()) {
+            performSearch(currentQuery)
         }
     }
 

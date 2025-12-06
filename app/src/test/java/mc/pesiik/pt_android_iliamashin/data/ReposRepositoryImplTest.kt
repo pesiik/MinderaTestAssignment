@@ -51,7 +51,8 @@ class ReposRepositoryImplTest {
             service.searchRepos(
                 q = "org",
                 perPage = 10,
-                page = 1
+                page = 1,
+                sort = "test",
             )
         } returns reposDto
         coEvery { mapper.mapDtoToDomain(repoDto) } returns domainRepo
@@ -60,7 +61,8 @@ class ReposRepositoryImplTest {
         val result = repository.searchRepos(
             query = "org",
             perPage = 10,
-            page = 1
+            page = 1,
+            sort = "test",
         )
 
         // Then
@@ -69,7 +71,8 @@ class ReposRepositoryImplTest {
             service.searchRepos(
                 q = "org",
                 perPage = 10,
-                page = 1
+                page = 1,
+                sort = "test",
             )
         }
         coVerify { mapper.mapDtoToDomain(any()) }

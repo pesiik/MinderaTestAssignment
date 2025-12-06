@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -52,8 +53,9 @@ fun NavGraphBuilder.repoDetailsScreen(
             viewModel = hiltViewModel<RepoDetailsViewModel, RepoDetailsViewModel.Factory>(
                 key = it.arguments?.getInt(RepoDetailsDestination.REPO_ID_ARG).toString(),
             ) { factory ->
-                val repoId = it.arguments?.getInt(RepoDetailsDestination.REPO_ID_ARG)
-                    ?: error("Repo id is required")
+                val repoId = it.arguments?.getInt(
+                    RepoDetailsDestination.REPO_ID_ARG
+                ) ?: error("Repo id is required")
                 factory.create(repoId)
             },
             onBackClick = onBackClick,
@@ -100,6 +102,8 @@ private fun RepoDetailsTopAppBar(
         title = {
             Text(
                 text = title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleLarge
             )
         },

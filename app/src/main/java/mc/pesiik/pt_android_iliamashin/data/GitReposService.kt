@@ -9,6 +9,7 @@ interface GitReposService {
     suspend fun searchRepos(
         @Query("q") q: String,
         @Query("per_page") perPage: Int,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("sort") sort: String?,
     ): ReposDto
 }

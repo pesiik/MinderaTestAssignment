@@ -18,6 +18,8 @@ import mc.pesiik.pt_android_iliamashin.domain.ReposRepository
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReposListViewModelTest {
@@ -291,6 +293,86 @@ class ReposListViewModelTest {
                 query = "test",
                 perPage = 30,
                 page = 2,
+            )
+        }
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = ReposSortOption::class, names = ["STARS", "FORKS", "UPDATED"])
+    fun `sort by option triggers search with sort parameter`(
+        sortOption: ReposSortOption
+    ) = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+
+        val repo: Repo = mockk()
+        val uiModel = RepoUiModel(
+            id = 1,
+            name = "repo",
+            ownerLogin = "owner",
+            ownerAvatarUrl = "avatar",
+            description = "desc",
+            starCount = 100,
+            language = "Kotlin",
+        )
+        val searchState = ReposListState(
+            repos = listOf(uiModel),
+            searchQuery = "test"
+        )
+        val sortedState = ReposListState(
+            repos = listOf(uiModel),
+            searchQuery = "test",
+            selectedSortOption = sortOption,
+            isSortMenuOpened = false
+        )
+
+        coEvery {
+            repository.searchRepos(
+                query = "test",
+                perPage = 30,
+                page = 1,
+                sort = null
+            )
+        } returns listOf(repo)
+        coEvery {
+            repository.searchRepos(
+                query = "test",
+                perPage = 30,
+                page = 1,
+                sort = sortOption.value
+            )
+        } returns listOf(repo)
+        every {
+            mapper.mapDomainToUIState(
+                domain = Result.success(listOf(repo)),
+                previousState = ReposListState(isIdle = true, searchQuery = "test"),
+                isPaginating = false,
+            )
+        } returns searchState
+        every {
+            mapper.mapDomainToUIState(
+                domain = Result.success(listOf(repo)),
+                previousState = searchState.copy(selectedSortOption = ReposSortOption.STARS),
+                isPaginating = false,
+            )
+        } returns sortedState
+
+        val vm = ReposListViewModel(repository, mapper)
+        vm.onEvent(ReposListScreenEvent.SearchRepos("test"))
+        advanceTimeBy(501L)
+
+        vm.onEvent(ReposListScreenEvent.SortedByOptionSelected(ReposSortOption.STARS))
+        advanceUntilIdle()
+
+        assertEquals(sortedState, vm.state.value)
+        assertEquals(ReposSortOption.STARS, vm.state.value.selectedSortOption)
+        assertEquals(false, vm.state.value.isSortMenuOpened)
+        coVerify {
+            repository.searchRepos(
+                query = "test",
+                perPage = 30,
+                page = 1,
+                sort = sortOption.value
             )
         }
     }
