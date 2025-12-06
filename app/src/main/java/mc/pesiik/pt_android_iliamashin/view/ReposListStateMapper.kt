@@ -9,25 +9,14 @@ class ReposListStateMapper @Inject constructor() {
         domain: Result<List<Repo>>,
         previousState: ReposListState
     ): ReposListState {
-        return when (previousState) {
-            ReposListState.Loading -> handleState(domain)
-            is ReposListState.Success -> handleState(domain = domain, previousSuccess = previousState)
-            is ReposListState.Error -> handleState(domain)
-        }
-    }
-
-    private fun handleState(
-        domain: Result<List<Repo>>,
-        previousSuccess: ReposListState.Success? = null,
-    ): ReposListState {
         return when {
             domain.isSuccess -> {
                 val repos = mapReposToUIList(domain.getOrThrow())
-                previousSuccess?.copy(repos = repos) ?: ReposListState.Success(repos)
+                previousState.copy(repos = repos, isIdle = false, errorMessage = null)
             }
 
             domain.isFailure -> mapToErrorState(domain)
-            else -> ReposListState.Loading
+            else -> throw IllegalStateException("Unreachable state")
         }
     }
 
@@ -37,14 +26,18 @@ class ReposListStateMapper @Inject constructor() {
 
     private fun mapRepoToUIItem(repo: Repo): RepoUiModel {
         return RepoUiModel(
+            id = repo.id,
             name = repo.name,
+            ownerLogin = repo.ownerLogin,
             ownerAvatarUrl = repo.ownerAvatarUrl,
             description = repo.description.orEmpty(),
+            starCount = repo.starCount,
+            language = repo.language,
         )
     }
 
     private fun mapToErrorState(domain: Result<List<Repo>>): ReposListState {
         val errorMessage = domain.exceptionOrNull()?.localizedMessage ?: "Unknown error"
-        return ReposListState.Error(message = errorMessage)
+        return ReposListState(errorMessage = errorMessage)
     }
 }

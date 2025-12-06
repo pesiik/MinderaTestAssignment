@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.ui.text)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     // Activity + Lifecycle (MVVM)
@@ -103,6 +104,9 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
     implementation(libs.kotlinx.serialization.json)
+
+    // Image loading: Coil Compose
+    implementation(libs.coil.compose)
 
     // --- Unit tests ---
     testImplementation(libs.junit4)

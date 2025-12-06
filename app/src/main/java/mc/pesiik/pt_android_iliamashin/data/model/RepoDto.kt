@@ -5,13 +5,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RepoDto(
+    val id: Int,
     val name: String,
     val owner: OwnerDto,
     val description: String?,
+    @SerialName("stargazers_count") val stargazersCount: Int,
+    val language: String?,
 ) {
 
     @Serializable
     data class OwnerDto(
+        val login: String,
         @SerialName("avatar_url") val avatarUrl: String
     )
 }

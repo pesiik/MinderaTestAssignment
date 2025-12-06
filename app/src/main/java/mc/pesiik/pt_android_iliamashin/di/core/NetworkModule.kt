@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
 private const val BASE_GIT_URL = "https://api.github.com/"
-private const val TOKEN = "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"
+private const val TOKEN = "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"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -27,8 +27,7 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                    .addHeader("Accept", "application/json;versions=1")
-                    .addHeader("Authorization", TOKEN)
+                    .addHeader("Accept", "application/vnd.github+json")
                     .build()
                 chain.proceed(request)
             }

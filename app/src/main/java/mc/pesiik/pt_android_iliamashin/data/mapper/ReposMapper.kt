@@ -9,9 +9,13 @@ class ReposMapper @Inject constructor() {
         repoDto: RepoDto
     ): Repo {
         return Repo(
+            id = repoDto.id,
             name = repoDto.name,
+            ownerLogin = repoDto.owner.login,
             ownerAvatarUrl = repoDto.owner.avatarUrl,
-            description = repoDto.description
+            description = repoDto.description,
+            starCount = repoDto.stargazersCount,
+            language = repoDto.language,
         )
     }
 }

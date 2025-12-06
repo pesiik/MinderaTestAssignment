@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">PT_Android_iliaMashin</string>
+    <string name="back_button">Back</string>
     <string name="repos_list_title">Github Repositories</string>
-    <string name="repos_list_empty">Start exploring</string>
+    <string name="repos_list_empty">There are no repos by this request</string>
+    <string name="repos_list_search_placeholder">Search for repos…</string>
+    <string name="repo_list_formatted_stars">%.1fk</string>
+    <string name="repo_list_stars">Stars</string>
+    <string name="repo_list_owner_avatar">Owner avatar</string>
 </resources>

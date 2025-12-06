@@ -1,37 +1,69 @@
 package mc.pesiik.pt_android_iliamashin.view
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import mc.pesiik.pt_android_iliamashin.core.launchCatching
 import mc.pesiik.pt_android_iliamashin.domain.Repo
 import mc.pesiik.pt_android_iliamashin.domain.ReposRepository
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 @HiltViewModel
 class ReposListViewModel @Inject constructor(
     private val reposRepository: ReposRepository,
     private val reposListStateMapper: ReposListStateMapper,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<ReposListState>(ReposListState.Loading)
+    private val _state = MutableStateFlow(ReposListState(isIdle = true))
     val state: StateFlow<ReposListState> = _state.asStateFlow()
 
-    fun onEvent(event: ReposListScreenEvent) {
-        when (event) {
-            is ReposListScreenEvent.SearchRepos -> searchRepos(event.organization)
-            is ReposListScreenEvent.SortClicked -> Unit // todo
+    private val searchQueryFlow = MutableStateFlow("")
+
+    init {
+        viewModelScope.launch {
+            searchQueryFlow
+                .debounce(DEBOUNCE_MILLIS)
+                .filter { it.isNotBlank() }
+                .distinctUntilChanged()
+                .collectLatest { query ->
+                    performSearch(query)
+                }
         }
     }
 
-    private fun searchRepos(organization: String) {
+    fun onEvent(event: ReposListScreenEvent) {
+        when (event) {
+            is ReposListScreenEvent.SearchRepos -> tryToSearch(event.query)
+            is ReposListScreenEvent.ToggleSearchMode -> toggleSearchMode(event.isInSearchMode)
+            is ReposListScreenEvent.RepoClicked -> Unit // todo
+            is ReposListScreenEvent.SortClicked -> Unit // todo
+            is ReposListScreenEvent.BackButtonClicked -> backButtonClicked()
+        }
+    }
+
+    private fun tryToSearch(query: String) {
+        val currentState = _state.value
+        _state.value = currentState.copy(
+            searchQuery = query
+        )
+        searchQueryFlow.value = query
+    }
+
+    private fun performSearch(query: String) {
         launchCatching(
             block = {
-                reposRepository.searchRepos(
-                    organization = organization
-                )
+                reposRepository.searchRepos(query = query)
             },
             onComplete = { data ->
                 updateReposList(data)
@@ -45,5 +77,28 @@ class ReposListViewModel @Inject constructor(
             previousState = _state.value
         )
         _state.value = newState
+    }
+
+    private fun toggleSearchMode(isInSearchMode: Boolean) {
+        _state.update {
+            it.copy(
+                isInSearchMode = isInSearchMode
+            )
+        }
+    }
+
+    private fun backButtonClicked() {
+        val isInSearchMode = _state.value.isInSearchMode
+        if (isInSearchMode) {
+            toggleSearchMode(isInSearchMode = false)
+        } else {
+            _state.update {
+                ReposListState(shouldCloseApp = true)
+            }
+        }
+    }
+
+    companion object {
+        private const val DEBOUNCE_MILLIS = 500L
     }
 }

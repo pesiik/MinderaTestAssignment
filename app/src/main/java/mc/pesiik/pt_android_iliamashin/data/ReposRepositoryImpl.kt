@@ -10,8 +10,10 @@ class ReposRepositoryImpl @Inject constructor(
     private val reposMapper: ReposMapper,
 ) : ReposRepository {
 
-    override suspend fun searchRepos(organization: String): List<Repo> {
-        val repoDtos = gitReposService.searchRepos(organization)
-        return repoDtos.map(reposMapper::mapDtoToDomain)
+    override suspend fun searchRepos(query: String): List<Repo> {
+        val reposDtos = gitReposService.searchRepos(query)
+        return reposDtos.items.map { repoDto ->
+            reposMapper.mapDtoToDomain(repoDto)
+        }
     }
 }

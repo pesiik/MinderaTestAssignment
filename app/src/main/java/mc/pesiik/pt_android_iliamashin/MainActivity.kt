@@ -20,7 +20,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PT_Android_iliaMashinTheme {
-                ReposScreenList(vm)
+                ReposScreenList(vm) {
+                    finish()
+                }
             }
         }
     }

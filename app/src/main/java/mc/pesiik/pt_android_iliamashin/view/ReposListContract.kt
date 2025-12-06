@@ -2,21 +2,31 @@ package mc.pesiik.pt_android_iliamashin.view
 
 
 sealed class ReposListScreenEvent {
-    data class SearchRepos(val organization: String) : ReposListScreenEvent()
+    data class SearchRepos(val query: String) : ReposListScreenEvent()
+    data class ToggleSearchMode(val isInSearchMode: Boolean) : ReposListScreenEvent()
+    data class RepoClicked(val repoId: Int) : ReposListScreenEvent()
     data object SortClicked : ReposListScreenEvent()
+    data object BackButtonClicked : ReposListScreenEvent()
 }
 
-sealed class ReposListState {
-    object Loading : ReposListState()
-    data class Success(val repos: List<RepoUiModel>) : ReposListState() {
-        val isEmpty = repos.isEmpty()
-    }
-
-    data class Error(val message: String) : ReposListState()
+data class ReposListState(
+    val repos: List<RepoUiModel> = emptyList(),
+    val isIdle: Boolean = false,
+    val isInSearchMode: Boolean = false,
+    val searchQuery: String = "",
+    val errorMessage: String? = null,
+    val shouldCloseApp: Boolean = false,
+) {
+    val isEmpty = repos.isEmpty()
+    val isError = errorMessage != null
 }
 
 data class RepoUiModel(
+    val id: Int,
     val name: String,
+    val ownerLogin: String,
     val ownerAvatarUrl: String,
     val description: String,
+    val starCount: Int,
+    val language: String?,
 )

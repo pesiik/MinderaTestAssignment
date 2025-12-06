@@ -1,12 +1,12 @@
 package mc.pesiik.pt_android_iliamashin.data
 
-import mc.pesiik.pt_android_iliamashin.data.model.RepoDto
+import mc.pesiik.pt_android_iliamashin.data.model.ReposDto
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface GitReposService {
-    @GET("/orgs/{org}/repos")
+    @GET("/search/repositories")
     suspend fun searchRepos(
-        @Path("org") organization: String
-    ): List<RepoDto>
+        @Query("q") q: String
+    ): ReposDto
 }

@@ -8,6 +8,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -36,20 +37,28 @@ class ReposListViewModelTest {
         Dispatchers.setMain(dispatcher)
 
         val repo: Repo = mockk()
-        val uiModel = RepoUiModel("name", "avatar", "desc")
-        val expectedState = ReposListState.Success(listOf(uiModel))
+        val uiModel = RepoUiModel(
+            id = 123,
+            name = "name",
+            ownerLogin = "login",
+            ownerAvatarUrl = "avatar",
+            description = "desc",
+            starCount = 42,
+            language = "Kotlin",
+        )
+        val expectedState = ReposListState(repos = listOf(uiModel))
 
         coEvery { repository.searchRepos("org") } returns listOf(repo)
         every {
             mapper.mapDomainToUIState(
                 domain = Result.success(listOf(repo)),
-                previousState = ReposListState.Loading,
+                previousState = ReposListState(isIdle = true, searchQuery = "org"),
             )
         } returns expectedState
 
         val vm = ReposListViewModel(repository, mapper)
         vm.onEvent(ReposListScreenEvent.SearchRepos("org"))
-        advanceUntilIdle()
+        advanceTimeBy(501L)
 
         assertEquals(expectedState, vm.state.value)
         coVerify { repository.searchRepos("org") }
@@ -61,21 +70,67 @@ class ReposListViewModelTest {
         Dispatchers.setMain(dispatcher)
 
         val error = RuntimeException("network")
-        val expectedState = ReposListState.Error("mapped error")
+        val expectedState = ReposListState(errorMessage = "mapped error")
 
         coEvery { repository.searchRepos("org") } throws error
         every {
             mapper.mapDomainToUIState(
                 domain = Result.failure(error),
-                previousState = ReposListState.Loading,
+                previousState = ReposListState(isIdle = true, searchQuery = "org"),
             )
         } returns expectedState
 
         val vm = ReposListViewModel(repository, mapper)
         vm.onEvent(ReposListScreenEvent.SearchRepos("org"))
-        advanceUntilIdle()
+        advanceTimeBy(501L)
 
         assertEquals(expectedState, vm.state.value)
         coVerify { repository.searchRepos("org") }
+    }
+
+    @Test
+    fun `toggle search mode updates isInSearchMode state`() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+
+        val vm = ReposListViewModel(repository, mapper)
+
+        vm.onEvent(ReposListScreenEvent.ToggleSearchMode(true))
+
+        assertEquals(true, vm.state.value.isInSearchMode)
+
+        vm.onEvent(ReposListScreenEvent.ToggleSearchMode(false))
+        advanceUntilIdle()
+
+        assertEquals(false, vm.state.value.isInSearchMode)
+    }
+
+    @Test
+    fun `back button clicked when in search mode toggles search mode off`() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+
+        val vm = ReposListViewModel(repository, mapper)
+        vm.onEvent(ReposListScreenEvent.ToggleSearchMode(true))
+
+        vm.onEvent(ReposListScreenEvent.BackButtonClicked)
+        advanceUntilIdle()
+
+        assertEquals(false, vm.state.value.isInSearchMode)
+        assertEquals(false, vm.state.value.shouldCloseApp)
+    }
+
+    @Test
+    fun `back button clicked when not in search mode sets shouldCloseApp true`() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+
+        val vm = ReposListViewModel(repository, mapper)
+
+        vm.onEvent(ReposListScreenEvent.BackButtonClicked)
+        advanceUntilIdle()
+
+        assertEquals(false, vm.state.value.isInSearchMode)
+        assertEquals(true, vm.state.value.shouldCloseApp)
     }
 }

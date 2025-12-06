@@ -14,11 +14,15 @@ class ReposMapperTest {
     fun `WHEN map dto THEN get correct domain`() {
         // Given
         val repoDto = RepoDto(
+            id = 0,
             name = "TestRepo",
             owner = RepoDto.OwnerDto(
+                login = "TestOwner",
                 avatarUrl = "http://example.com/avatar.png"
             ),
-            description = "This is a test repository"
+            description = "This is a test repository",
+            stargazersCount = 10,
+            language = "Kotlin",
         )
 
         // When
@@ -26,9 +30,13 @@ class ReposMapperTest {
 
         // Then
         val expectedDomain = Repo(
+            id = 0,
             name = "TestRepo",
+            ownerLogin = "TestOwner",
             ownerAvatarUrl = "http://example.com/avatar.png",
-            description = "This is a test repository"
+            description = "This is a test repository",
+            starCount = 10,
+            language = "Kotlin",
         )
 
         assertEquals(expectedDomain, repoDomain)
