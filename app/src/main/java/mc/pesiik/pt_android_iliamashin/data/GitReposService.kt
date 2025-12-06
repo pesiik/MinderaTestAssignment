@@ -7,6 +7,8 @@ import retrofit2.http.Query
 interface GitReposService {
     @GET("/search/repositories")
     suspend fun searchRepos(
-        @Query("q") q: String
+        @Query("q") q: String,
+        @Query("per_page") perPage: Int,
+        @Query("page") page: Int
     ): ReposDto
 }

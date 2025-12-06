@@ -66,6 +66,9 @@ fun ReposScreenList(
                     onItemClick = { repoId ->
                         vm.onEvent(ReposListScreenEvent.RepoClicked(repoId))
                     },
+                    onLastItemVisible = { lastVisiblePosition ->
+                        vm.onEvent(ReposListScreenEvent.ScrollReposList(lastVisiblePosition))
+                    },
                     paddingValues = paddingValues,
                 )
             }

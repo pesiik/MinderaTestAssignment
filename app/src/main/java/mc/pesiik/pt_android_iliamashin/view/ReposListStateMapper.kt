@@ -7,12 +7,18 @@ class ReposListStateMapper @Inject constructor() {
 
     fun mapDomainToUIState(
         domain: Result<List<Repo>>,
-        previousState: ReposListState
+        previousState: ReposListState,
+        isPaginating: Boolean,
     ): ReposListState {
         return when {
             domain.isSuccess -> {
                 val repos = mapReposToUIList(domain.getOrThrow())
-                previousState.copy(repos = repos, isIdle = false, errorMessage = null)
+                val combined = if (isPaginating) {
+                    previousState.repos + repos
+                } else {
+                    repos
+                }
+                previousState.copy(repos = combined, isIdle = false, errorMessage = null)
             }
 
             domain.isFailure -> mapToErrorState(domain)

@@ -5,6 +5,7 @@ sealed class ReposListScreenEvent {
     data class SearchRepos(val query: String) : ReposListScreenEvent()
     data class ToggleSearchMode(val isInSearchMode: Boolean) : ReposListScreenEvent()
     data class RepoClicked(val repoId: Int) : ReposListScreenEvent()
+    data class ScrollReposList(val lastVisiblePosition: Int) : ReposListScreenEvent()
     data object SortClicked : ReposListScreenEvent()
     data object BackButtonClicked : ReposListScreenEvent()
 }

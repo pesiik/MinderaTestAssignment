@@ -29,6 +29,7 @@ class ReposListViewModel @Inject constructor(
     val state: StateFlow<ReposListState> = _state.asStateFlow()
 
     private val searchQueryFlow = MutableStateFlow("")
+    private val pageMutableState = MutableStateFlow(1)
 
     init {
         viewModelScope.launch {
@@ -40,6 +41,15 @@ class ReposListViewModel @Inject constructor(
                     performSearch(query)
                 }
         }
+        viewModelScope.launch {
+            pageMutableState
+                .collectLatest { page ->
+                    val currentQuery = _state.value.searchQuery
+                    if (currentQuery.isNotBlank() && page > 1) {
+                        performSearch(currentQuery, page)
+                    }
+                }
+        }
     }
 
     fun onEvent(event: ReposListScreenEvent) {
@@ -47,6 +57,7 @@ class ReposListViewModel @Inject constructor(
             is ReposListScreenEvent.SearchRepos -> tryToSearch(event.query)
             is ReposListScreenEvent.ToggleSearchMode -> toggleSearchMode(event.isInSearchMode)
             is ReposListScreenEvent.RepoClicked -> Unit // todo
+            is ReposListScreenEvent.ScrollReposList -> tryToLoadNextPage(event.lastVisiblePosition)
             is ReposListScreenEvent.SortClicked -> Unit // todo
             is ReposListScreenEvent.BackButtonClicked -> backButtonClicked()
         }
@@ -60,21 +71,27 @@ class ReposListViewModel @Inject constructor(
         searchQueryFlow.value = query
     }
 
-    private fun performSearch(query: String) {
+    private fun performSearch(query: String, page: Int = 1) {
+        // todo Should add skeleton/loading state
         launchCatching(
             block = {
-                reposRepository.searchRepos(query = query)
+                reposRepository.searchRepos(
+                    query = query,
+                    perPage = PER_PAGE_COUNT,
+                    page = page
+                )
             },
             onComplete = { data ->
-                updateReposList(data)
+                updateReposList(data, page)
             }
         )
     }
 
-    private fun updateReposList(data: Result<List<Repo>>) {
+    private fun updateReposList(data: Result<List<Repo>>, page: Int) {
         val newState = reposListStateMapper.mapDomainToUIState(
             domain = data,
-            previousState = _state.value
+            previousState = _state.value,
+            isPaginating = page > 1,
         )
         _state.value = newState
     }
@@ -84,6 +101,16 @@ class ReposListViewModel @Inject constructor(
             it.copy(
                 isInSearchMode = isInSearchMode
             )
+        }
+    }
+
+    private fun tryToLoadNextPage(lastVisiblePosition: Int) {
+        val lastIndex = PER_PAGE_COUNT * pageMutableState.value - START_PAGINATION_STEP
+        val hasToPaginate = lastVisiblePosition >= lastIndex
+        if (hasToPaginate) {
+            pageMutableState.update { currentPage ->
+                currentPage + 1
+            }
         }
     }
 
@@ -100,5 +127,7 @@ class ReposListViewModel @Inject constructor(
 
     companion object {
         private const val DEBOUNCE_MILLIS = 500L
+        private const val PER_PAGE_COUNT = 30
+        private const val START_PAGINATION_STEP = 15
     }
 }

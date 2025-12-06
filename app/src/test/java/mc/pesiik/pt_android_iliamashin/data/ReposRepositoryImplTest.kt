@@ -41,15 +41,31 @@ class ReposRepositoryImplTest {
             items = listOf(repoDto)
         )
         val domainRepo: Repo = mockk()
-        coEvery { service.searchRepos("org") } returns reposDto
+        coEvery {
+            service.searchRepos(
+                q = "org",
+                perPage = 10,
+                page = 1
+            )
+        } returns reposDto
         coEvery { mapper.mapDtoToDomain(repoDto) } returns domainRepo
 
         // When
-        val result = repository.searchRepos("org")
+        val result = repository.searchRepos(
+            query = "org",
+            perPage = 10,
+            page = 1
+        )
 
         // Then
         assertEquals(listOf(domainRepo), result)
-        coVerify { service.searchRepos("org") }
+        coVerify {
+            service.searchRepos(
+                q = "org",
+                perPage = 10,
+                page = 1
+            )
+        }
         coVerify { mapper.mapDtoToDomain(any()) }
     }
 }

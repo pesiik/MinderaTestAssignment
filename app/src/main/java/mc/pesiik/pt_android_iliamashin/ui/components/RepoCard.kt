@@ -1,6 +1,7 @@
 package mc.pesiik.pt_android_iliamashin.ui.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,16 +31,13 @@ import androidx.core.graphics.toColorInt
 import coil.compose.AsyncImage
 import mc.pesiik.pt_android_iliamashin.R
 import mc.pesiik.pt_android_iliamashin.ui.theme.Typography
+import mc.pesiik.pt_android_iliamashin.view.RepoUiModel
 
 @Composable
 fun RepoCard(
-    ownerLogin: String,
-    ownerAvatarUrl: String,
-    repoName: String,
-    description: String?,
-    starCount: Int,
-    language: String?,
-    modifier: Modifier = Modifier
+    repo: RepoUiModel,
+    modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit,
 ) {
     Card(
         modifier = modifier
@@ -52,20 +50,21 @@ fun RepoCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
+                .clickable { onClick(repo.id) },
         ) {
             OwnerBlock(
-                ownerLogin = ownerLogin,
-                ownerAvatarUrl = ownerAvatarUrl
+                ownerLogin = repo.ownerLogin,
+                ownerAvatarUrl = repo.ownerAvatarUrl
             )
 
             Text(
-                text = repoName,
+                text = repo.name,
                 style = Typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
-            Description(description)
+            Description(repo.description)
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -73,9 +72,9 @@ fun RepoCard(
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                StartsBlock(starCount)
+                StartsBlock(repo.starCount)
 
-                LanguageBlock(language)
+                LanguageBlock(repo.language)
             }
         }
     }

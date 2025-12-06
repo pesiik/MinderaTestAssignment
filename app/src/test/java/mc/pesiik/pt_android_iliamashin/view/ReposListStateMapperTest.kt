@@ -28,7 +28,11 @@ class ReposListStateMapperTest {
         )
 
         // When
-        val newState = mapper.mapDomainToUIState(domainResult, previousState)
+        val newState = mapper.mapDomainToUIState(
+            domain = domainResult,
+            previousState = previousState,
+            isPaginating = false
+        )
 
         // Then
         assert(newState.isError)
@@ -51,7 +55,11 @@ class ReposListStateMapperTest {
         val previousState = ReposListState(errorMessage = "Previous error")
 
         // When
-        val newState = mapper.mapDomainToUIState(domainResult, previousState)
+        val newState = mapper.mapDomainToUIState(
+            domain = domainResult,
+            previousState = previousState,
+            isPaginating = false
+        )
 
         // Then
         val expectedUiModel = RepoUiModel(
@@ -96,7 +104,11 @@ class ReposListStateMapperTest {
         )
 
         // When
-        val newState = mapper.mapDomainToUIState(domainResult, previousState)
+        val newState = mapper.mapDomainToUIState(
+            domain = domainResult,
+            previousState = previousState,
+            isPaginating = false
+        )
 
         // Then
         val expectedUiModel = RepoUiModel(
@@ -113,5 +125,55 @@ class ReposListStateMapperTest {
         )
 
         assertEquals(expectedState, newState)
+    }
+
+    @Test
+    fun `WHEN map success result with isPaginating true THEN append new repos to existing list`() {
+        // Given
+        val existingRepo = RepoUiModel(
+            id = 1,
+            name = "ExistingRepo",
+            ownerLogin = "existingOwner",
+            ownerAvatarUrl = "http://example.com/existing.png",
+            description = "Existing description",
+            starCount = 100,
+            language = "Kotlin",
+        )
+        val previousState = ReposListState(repos = listOf(existingRepo))
+
+        val newRepo = Repo(
+            id = 2,
+            name = "NewRepo",
+            ownerLogin = "newOwner",
+            ownerAvatarUrl = "http://example.com/new.png",
+            description = "New description",
+            starCount = 50,
+            language = "Java",
+        )
+        val domainResult = Result.success(listOf(newRepo))
+
+        // When
+        val newState = mapper.mapDomainToUIState(
+            domain = domainResult,
+            previousState = previousState,
+            isPaginating = true
+        )
+
+        // Then
+        val expectedNewUiModel = RepoUiModel(
+            id = 2,
+            name = "NewRepo",
+            ownerLogin = "newOwner",
+            ownerAvatarUrl = "http://example.com/new.png",
+            description = "New description",
+            starCount = 50,
+            language = "Java",
+        )
+        val expectedState = ReposListState(
+            repos = listOf(existingRepo, expectedNewUiModel)
+        )
+
+        assertEquals(expectedState, newState)
+        assertEquals(2, newState.repos.size)
     }
 }
