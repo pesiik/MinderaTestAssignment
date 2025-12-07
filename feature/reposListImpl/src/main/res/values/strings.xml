@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="repos_list_title">Github Repositories</string>
+    <string name="repos_list_empty">There are no repos by this request</string>
+    <string name="repos_list_search_content_description">Search…</string>
+    <string name="repos_list_search_placeholder">Search for repos…</string>
+    <string name="repo_list_formatted_stars">%.1fk</string>
+    <string name="repo_list_stars">Stars</string>
+    <string name="repo_list_owner_avatar">Owner avatar</string>
+    <string name="repo_list_sort_button">Sort</string>
+    <string name="repo_list_sort_by_title">Sort by</string>
+    <string name="repo_list_sort_option_stars">By Stars</string>
+    <string name="repo_list_sort_option_forks">By Forks</string>
+    <string name="repo_list_sort_option_updated">By Last Updated</string>
+    <string name="repo_list_sort_ok">OK</string>
+    <string name="repo_list_sort_cancel">Cancel</string>
+</resources>

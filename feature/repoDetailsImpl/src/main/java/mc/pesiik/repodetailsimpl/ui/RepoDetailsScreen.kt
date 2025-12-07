@@ -27,7 +27,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import mc.pesiik.navigation.RepoDetailsDestination
-import mc.pesiik.repodetailsimpl.R
 import mc.pesiik.repodetailsimpl.ui.components.RepoDetailsContent
 import mc.pesiik.repodetailsimpl.view.RepoDetailsViewModel
 

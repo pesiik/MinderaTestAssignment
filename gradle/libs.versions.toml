@@ -41,6 +41,10 @@ coreKtx = "1.17.0"
 junit = "4.13.2"
 appcompat = "1.7.1"
 material = "1.13.0"
+coreKtxVersion = "1.17.0"
+junitVersion = "4.13.2"
+appcompatVersion = "1.7.1"
+materialVersion = "1.13.0"
 
 [plugins]
 android-application = { id = "com.android.application",                 version.ref = "androidGradlePlugin" }
@@ -114,3 +118,7 @@ androidx-test-ext-junit             = { module = "androidx.test.ext:junit", vers
 androidx-test-runner                = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 androidx-test-core                  = { module = "androidx.test:core", version.ref = "androidx-test-core" }
 espresso-core                       = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
+junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
+material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }

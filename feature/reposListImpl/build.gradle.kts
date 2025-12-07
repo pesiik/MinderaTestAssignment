@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "mc.pesiik.repodetailsimpl"
+    namespace = "mc.pesiik.reposlistimpl"
     compileSdk = 36
 
     defaultConfig {
@@ -47,14 +47,14 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.material3)
 
-    // --- Other dependencies ---
-    implementation(libs.kotlinx.datetime)
+    // Image loading: Coil Compose
+    implementation(libs.coil.compose)
 
     // --- Feature dependencies ---
     implementation(project(":core:cache"))
     implementation(project(":core:navigation"))
     implementation(project(":core:resources"))
-    implementation(project(":feature:repoDetailsApi"))
+    implementation(project(":core:viewmodel"))
     implementation(project(":feature:reposListApi"))
 
     // --- Unit tests ---

@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import mc.pesiik.navigation.ReposListDestination
 import mc.pesiik.repodetailsimpl.ui.navigateToRepoDetails
 import mc.pesiik.repodetailsimpl.ui.repoDetailsScreen
-import mc.pesiik.pt_android_iliamashin.ui.list.reposListScreen
+import mc.pesiik.reposlistimpl.ui.reposListScreen
 
 @Composable
 fun AppNavHost(
