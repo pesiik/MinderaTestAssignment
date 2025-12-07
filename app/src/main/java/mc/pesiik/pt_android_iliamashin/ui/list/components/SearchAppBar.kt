@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -28,8 +28,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import mc.pesiik.pt_android_iliamashin.R
-import mc.pesiik.pt_android_iliamashin.ui.theme.Purple40
-import mc.pesiik.pt_android_iliamashin.ui.theme.PurpleGrey40
 import mc.pesiik.pt_android_iliamashin.ui.theme.Typography
 import mc.pesiik.pt_android_iliamashin.view.ReposListState
 
@@ -51,7 +49,7 @@ fun SearchAppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = Purple40
+                    color = MaterialTheme.colorScheme.primary
                 ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -69,13 +67,14 @@ fun SearchAppBar(
                 IconButton(onClick = { onSearchModeToggle(true) }) {
                     Icon(
                         imageVector = Icons.Default.Search,
+                        tint = MaterialTheme.colorScheme.onPrimary,
                         contentDescription = stringResource(R.string.repos_list_search_content_description)
                     )
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Purple40,
-                scrolledContainerColor = PurpleGrey40,
+                containerColor = MaterialTheme.colorScheme.primary,
+                scrolledContainerColor = MaterialTheme.colorScheme.secondary,
             ),
             title = {
                 AppBarTitle()
@@ -92,6 +91,7 @@ private fun BackButton(
     IconButton(onClick = onBackClicked) {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            tint = MaterialTheme.colorScheme.onPrimary,
             contentDescription = stringResource(R.string.back_button)
         )
     }
@@ -113,15 +113,24 @@ private fun AppBarWithSearchAndTitle(
             )
             .focusRequester(focusRequester),
         colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = PurpleGrey40,
-            unfocusedIndicatorColor = PurpleGrey40,
-            focusedContainerColor = Purple40,
-            unfocusedContainerColor = Purple40,
+            focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+            unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
+            focusedContainerColor = MaterialTheme.colorScheme.primary,
+            unfocusedContainerColor = MaterialTheme.colorScheme.primary,
+            cursorColor = MaterialTheme.colorScheme.onPrimary,
+            focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+            focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
         ),
         value = state.searchQuery,
         onValueChange = onQueryChange,
         singleLine = true,
         textStyle = Typography.titleLarge,
+        placeholder = {
+            Text(
+                text = stringResource(R.string.repos_list_search_placeholder),
+                style = Typography.titleLarge,
+            )
+        }
     )
 }
 
@@ -132,6 +141,7 @@ private fun SortButton(
     IconButton(onClick = onSortClicked) {
         Icon(
             imageVector = Icons.Default.Settings,
+            tint = MaterialTheme.colorScheme.onPrimary,
             contentDescription = stringResource(R.string.repo_list_sort_button)
         )
     }
@@ -141,6 +151,7 @@ private fun SortButton(
 private fun AppBarTitle() {
     Text(
         text = stringResource(R.string.repos_list_title),
+        color = MaterialTheme.colorScheme.onPrimary,
         fontSize = 30.sp,
     )
 }

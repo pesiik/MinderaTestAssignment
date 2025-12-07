@@ -104,18 +104,20 @@ private fun RepoDetailsTopAppBar(
                 text = title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Purple40,
-            scrolledContainerColor = PurpleGrey40,
+            containerColor = MaterialTheme.colorScheme.primary,
+            scrolledContainerColor = MaterialTheme.colorScheme.secondary,
         ),
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.back_button)
+                    contentDescription = stringResource(R.string.back_button),
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

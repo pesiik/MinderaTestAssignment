@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +20,6 @@ import mc.pesiik.pt_android_iliamashin.core.navigation.ReposListDestination
 import mc.pesiik.pt_android_iliamashin.ui.list.components.ReposList
 import mc.pesiik.pt_android_iliamashin.ui.list.components.SearchAppBar
 import mc.pesiik.pt_android_iliamashin.ui.list.components.SortDialog
-import mc.pesiik.pt_android_iliamashin.ui.theme.Purple40
 import mc.pesiik.pt_android_iliamashin.view.ReposListScreenEvent
 import mc.pesiik.pt_android_iliamashin.view.ReposListViewModel
 
@@ -70,7 +70,7 @@ fun ReposScreenList(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
-                        color = Purple40
+                        color = MaterialTheme.colorScheme.primary,
                     )
                     .safeDrawingPadding(),
                 topBar = {
