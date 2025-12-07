@@ -13,7 +13,6 @@ sealed class ReposListScreenEvent {
 
 data class ReposListState(
     val repos: List<RepoUiModel> = emptyList(),
-    val isIdle: Boolean = false,
     val isInSearchMode: Boolean = false,
     val searchQuery: String = "",
     val errorMessage: String? = null,

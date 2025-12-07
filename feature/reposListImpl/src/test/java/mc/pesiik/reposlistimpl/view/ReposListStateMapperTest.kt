@@ -37,6 +37,7 @@ class ReposListStateMapperTest {
         // Then
         assert(newState.isError)
         assertEquals("Network error", newState.errorMessage)
+        assertEquals(previousState.repos, newState.repos)
     }
 
     @Test
@@ -76,7 +77,6 @@ class ReposListStateMapperTest {
         )
         val expectedState = ReposListState(
             repos = listOf(expectedUiModel),
-            isIdle = false,
             errorMessage = null
         )
 
@@ -132,7 +132,6 @@ class ReposListStateMapperTest {
         )
         val expectedState = ReposListState(
             repos = listOf(expectedUiModel),
-            isIdle = false,
             errorMessage = null
         )
 
@@ -187,7 +186,6 @@ class ReposListStateMapperTest {
         )
         val expectedState = ReposListState(
             repos = listOf(existingRepo, expectedNewUiModel),
-            isIdle = false,
             errorMessage = null
         )
 

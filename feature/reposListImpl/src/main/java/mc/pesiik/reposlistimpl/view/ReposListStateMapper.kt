@@ -18,10 +18,10 @@ class ReposListStateMapper @Inject constructor() {
                 } else {
                     repos
                 }.filter { !it.isShimmer }
-                previousState.copy(repos = combined, isIdle = false, errorMessage = null)
+                previousState.copy(repos = combined, errorMessage = null)
             }
 
-            domain.isFailure -> mapToErrorState(domain)
+            domain.isFailure -> mapToErrorState(domain, previousState)
             else -> throw IllegalStateException("Unreachable state")
         }
     }
@@ -52,8 +52,10 @@ class ReposListStateMapper @Inject constructor() {
         )
     }
 
-    private fun mapToErrorState(domain: Result<List<Repo>>): ReposListState {
+    private fun mapToErrorState(domain: Result<List<Repo>>, previousState: ReposListState): ReposListState {
         val errorMessage = domain.exceptionOrNull()?.localizedMessage ?: "Unknown error"
-        return ReposListState(errorMessage = errorMessage)
+        return previousState.copy(
+            errorMessage = errorMessage,
+        )
     }
 }

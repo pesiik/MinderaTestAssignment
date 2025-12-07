@@ -61,7 +61,7 @@ class ReposListViewModelTest {
         every {
             mapper.shimmerRepoModels(
                 count = 5,
-                previousState = ReposListState(isIdle = true, searchQuery = "org"),
+                previousState = ReposListState(searchQuery = "org"),
                 isPaginating = false,
             )
         } returns shimmerModels
@@ -99,7 +99,7 @@ class ReposListViewModelTest {
         every {
             mapper.shimmerRepoModels(
                 count = 5,
-                previousState = ReposListState(isIdle = true, searchQuery = "org"),
+                previousState = ReposListState(searchQuery = "org"),
                 isPaginating = false,
             )
         } returns shimmerModels
@@ -278,7 +278,7 @@ class ReposListViewModelTest {
         every {
             mapper.mapDomainToUIState(
                 domain = Result.success(listOf(repo)),
-                previousState = ReposListState(isIdle = true, searchQuery = "test"),
+                previousState = ReposListState(searchQuery = "test"),
                 isPaginating = false,
             )
         } returns initialState
@@ -356,7 +356,7 @@ class ReposListViewModelTest {
         every {
             mapper.mapDomainToUIState(
                 domain = Result.success(listOf(repo)),
-                previousState = ReposListState(isIdle = true, searchQuery = "test"),
+                previousState = ReposListState(searchQuery = "test"),
                 isPaginating = false,
             )
         } returns searchState

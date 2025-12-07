@@ -25,7 +25,7 @@ class ReposListViewModel @Inject constructor(
     private val reposListStateMapper: ReposListStateMapper,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(ReposListState(isIdle = true))
+    private val _state = MutableStateFlow(ReposListState())
     val state: StateFlow<ReposListState> = _state.asStateFlow()
 
     private val searchQueryFlow = MutableStateFlow("")
@@ -160,7 +160,7 @@ class ReposListViewModel @Inject constructor(
 
     private fun retryLoadRepos() {
         val currentQuery = searchQueryFlow.value
-        performSearch(currentQuery, page = 1)
+        performSearch(currentQuery, page = pageMutableState.value)
     }
 
     private fun backButtonClicked() {
