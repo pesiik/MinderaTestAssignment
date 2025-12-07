@@ -38,11 +38,13 @@ class ReposListViewModel @Inject constructor(
                 .filter { it.isNotBlank() }
                 .distinctUntilChanged()
                 .collectLatest { query ->
+                    resetPagination()
                     performSearch(query)
                 }
         }
         viewModelScope.launch {
             pageMutableState
+                .filter { it > 1 }
                 .collectLatest { page ->
                     val currentQuery = _state.value.searchQuery
                     if (currentQuery.isNotBlank() && page > 1) {
@@ -116,6 +118,10 @@ class ReposListViewModel @Inject constructor(
         }
     }
 
+    private fun resetPagination() {
+        pageMutableState.value = 1
+    }
+
     private fun sortMenu(show: Boolean) {
         _state.update {
             it.copy(
@@ -133,6 +139,7 @@ class ReposListViewModel @Inject constructor(
         }
         val currentQuery = _state.value.searchQuery
         if (currentQuery.isNotBlank()) {
+            resetPagination()
             performSearch(currentQuery)
         }
     }
