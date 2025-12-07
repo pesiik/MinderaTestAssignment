@@ -1,6 +1,5 @@
 package mc.pesiik.pt_android_iliamashin.ui.details.components
 
-import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -92,7 +91,7 @@ private fun RepoStatistics(state: RepoDetailUiState) {
     RepoStatRow(
         image = Icons.Default.Face,
         stringId = R.string.repo_details_watchers,
-        count = state.watchersCount
+        count = state.subscribersCount
     )
     Spacer(modifier = Modifier.height(16.dp))
 }
@@ -102,7 +101,7 @@ private fun RepoLastUpdated(lastUpdated: String) {
     Text(
         text = stringResource(
             id = R.string.repo_details_published_at_label,
-            formatArgs = arrayOf(dateFormatted(Instant.parse(lastUpdated)))
+            formatArgs = arrayOf(dateFormatted(lastUpdated))
         ),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -144,7 +143,9 @@ private fun RepoStatRow(
 }
 
 @Composable
-private fun dateFormatted(publishDate: Instant): String {
+private fun dateFormatted(publishDateString: String): String {
+    if (publishDateString.isEmpty()) return ""
+    val publishDate = Instant.parse(publishDateString)
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         DateTimeFormatter
             .ofLocalizedDate(FormatStyle.MEDIUM)

@@ -1,6 +1,7 @@
 package mc.pesiik.pt_android_iliamashin.view
 
 import mc.pesiik.pt_android_iliamashin.domain.Repo
+import mc.pesiik.pt_android_iliamashin.domain.RepoDetails
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -11,16 +12,12 @@ class RepoDetailStateMapperTest {
     @Test
     fun `WHEN map repo to ui state THEN return correct ui state`() {
         // Given
-        val repo = Repo(
-            id = 1,
+        val repo = RepoDetails(
             name = "TestRepo",
-            ownerLogin = "testOwner",
-            ownerAvatarUrl = "http://example.com/avatar.png",
             description = "Test description",
-            starCount = 100,
-            language = "Kotlin",
-            forkCount = 50,
-            watcherCount = 75,
+            starsCount = 100,
+            forksCount = 50,
+            subscribersCount = 75,
             lastUpdated = "2024-01-15T10:30:00Z"
         )
 
@@ -33,7 +30,7 @@ class RepoDetailStateMapperTest {
             description = "Test description",
             forksCount = 50,
             starsCount = 100,
-            watchersCount = 75,
+            subscribersCount = 75,
             lastUpdated = "2024-01-15T10:30:00Z"
         )
 
@@ -43,16 +40,12 @@ class RepoDetailStateMapperTest {
     @Test
     fun `WHEN map repo with null description THEN return ui state with null description`() {
         // Given
-        val repo = Repo(
-            id = 2,
+        val repo = RepoDetails(
             name = "RepoWithoutDescription",
-            ownerLogin = "owner",
-            ownerAvatarUrl = "http://example.com/avatar.png",
             description = null,
-            starCount = 200,
-            language = "Java",
-            forkCount = 100,
-            watcherCount = 150,
+            starsCount = 200,
+            forksCount = 100,
+            subscribersCount = 150,
             lastUpdated = "2024-02-20T14:45:00Z"
         )
 
@@ -64,6 +57,6 @@ class RepoDetailStateMapperTest {
         assertEquals(null, uiState.description)
         assertEquals(100, uiState.forksCount)
         assertEquals(200, uiState.starsCount)
-        assertEquals(150, uiState.watchersCount)
+        assertEquals(150, uiState.subscribersCount)
     }
 }

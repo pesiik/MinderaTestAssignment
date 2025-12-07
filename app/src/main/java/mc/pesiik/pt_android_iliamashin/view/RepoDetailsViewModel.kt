@@ -1,6 +1,7 @@
 package mc.pesiik.pt_android_iliamashin.view
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -8,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import mc.pesiik.pt_android_iliamashin.domain.RepoDetailsRepository
 
 @HiltViewModel(assistedFactory = RepoDetailsViewModel.Factory::class)
@@ -26,9 +28,11 @@ class RepoDetailsViewModel @AssistedInject constructor(
     }
 
     private fun loadRepoDetails() {
-        val repo = repoDetailsRepository.getRepoDetails(repoId)
-        val uiState = repoDetailStateMapper.mapToUiState(repo)
-        _state.value = uiState
+        viewModelScope.launch {
+            val repo = repoDetailsRepository.getRepoDetails(repoId)
+            val uiState = repoDetailStateMapper.mapToUiState(repo)
+            _state.value = uiState
+        }
     }
 
     @AssistedFactory

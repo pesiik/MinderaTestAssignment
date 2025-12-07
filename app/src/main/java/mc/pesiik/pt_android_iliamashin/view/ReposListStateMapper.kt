@@ -37,7 +37,7 @@ class ReposListStateMapper @Inject constructor() {
             ownerLogin = repo.ownerLogin,
             ownerAvatarUrl = repo.ownerAvatarUrl,
             description = repo.description.orEmpty(),
-            starCount = repo.starCount,
+            starCount = repo.starsCount,
             language = repo.language,
         )
     }

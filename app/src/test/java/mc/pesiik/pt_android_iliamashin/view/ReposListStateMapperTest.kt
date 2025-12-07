@@ -48,10 +48,9 @@ class ReposListStateMapperTest {
             ownerLogin = "newOwner",
             ownerAvatarUrl = "http://example.com/new.png",
             description = "New description",
-            starCount = 50,
+            starsCount = 50,
             language = "Java",
-            forkCount = 10,
-            watcherCount = 20,
+            forksCount = 10,
             lastUpdated = "2024-06-01T12:00:00Z"
         )
         val domainResult = Result.success(listOf(repo))
@@ -88,10 +87,9 @@ class ReposListStateMapperTest {
             ownerLogin = "updatedOwner",
             ownerAvatarUrl = "http://example.com/updated.png",
             description = "Updated description",
-            starCount = 150,
+            starsCount = 150,
             language = "Python",
-            forkCount = 30,
-            watcherCount = 40,
+            forksCount = 30,
             lastUpdated = "2024-06-02T15:00:00Z"
         )
         val domainResult = Result.success(listOf(repo))
@@ -153,10 +151,9 @@ class ReposListStateMapperTest {
             ownerLogin = "newOwner",
             ownerAvatarUrl = "http://example.com/new.png",
             description = "New description",
-            starCount = 50,
+            starsCount = 50,
             language = "Java",
-            forkCount = 10,
-            watcherCount = 20,
+            forksCount = 10,
             lastUpdated = "2024-06-01T12:00:00Z",
         )
         val domainResult = Result.success(listOf(newRepo))

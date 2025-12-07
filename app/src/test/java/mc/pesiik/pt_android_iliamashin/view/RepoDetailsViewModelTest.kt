@@ -1,16 +1,19 @@
 package mc.pesiik.pt_android_iliamashin.view
 
 import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import mc.pesiik.pt_android_iliamashin.domain.Repo
+import mc.pesiik.pt_android_iliamashin.domain.RepoDetails
 import mc.pesiik.pt_android_iliamashin.domain.RepoDetailsRepository
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -34,16 +37,12 @@ class RepoDetailsViewModelTest {
         Dispatchers.setMain(dispatcher)
 
         val repoId = 123
-        val repo = Repo(
-            id = repoId,
+        val repo = RepoDetails(
             name = "TestRepo",
-            ownerLogin = "testOwner",
-            ownerAvatarUrl = "http://example.com/avatar.png",
             description = "Test description",
-            starCount = 100,
-            language = "Kotlin",
-            forkCount = 50,
-            watcherCount = 75,
+            starsCount = 100,
+            forksCount = 50,
+            subscribersCount = 75,
             lastUpdated = "2024-01-15T10:30:00Z"
         )
         val expectedState = RepoDetailUiState(
@@ -51,17 +50,18 @@ class RepoDetailsViewModelTest {
             description = "Test description",
             forksCount = 50,
             starsCount = 100,
-            watchersCount = 75,
+            subscribersCount = 75,
             lastUpdated = "2024-01-15T10:30:00Z"
         )
 
-        every { repoDetailsRepository.getRepoDetails(repoId) } returns repo
+        coEvery { repoDetailsRepository.getRepoDetails(repoId) } returns repo
         every { mapper.mapToUiState(repo) } returns expectedState
 
         val viewModel = RepoDetailsViewModel(repoId, repoDetailsRepository, mapper)
+        advanceUntilIdle()
 
         assertEquals(expectedState, viewModel.state.value)
-        verify { repoDetailsRepository.getRepoDetails(repoId) }
+        coVerify { repoDetailsRepository.getRepoDetails(repoId) }
         verify { mapper.mapToUiState(repo) }
     }
 
@@ -71,16 +71,12 @@ class RepoDetailsViewModelTest {
         Dispatchers.setMain(dispatcher)
 
         val repoId = 456
-        val repo = Repo(
-            id = repoId,
+        val repo = RepoDetails(
             name = "RepoWithoutDescription",
-            ownerLogin = "owner",
-            ownerAvatarUrl = "http://example.com/avatar.png",
             description = null,
-            starCount = 200,
-            language = "Java",
-            forkCount = 100,
-            watcherCount = 150,
+            starsCount = 200,
+            forksCount = 100,
+            subscribersCount = 150,
             lastUpdated = "2024-02-20T14:45:00Z"
         )
         val expectedState = RepoDetailUiState(
@@ -88,14 +84,15 @@ class RepoDetailsViewModelTest {
             description = null,
             forksCount = 100,
             starsCount = 200,
-            watchersCount = 150,
+            subscribersCount = 150,
             lastUpdated = "2024-02-20T14:45:00Z"
         )
 
-        every { repoDetailsRepository.getRepoDetails(repoId) } returns repo
+        coEvery { repoDetailsRepository.getRepoDetails(repoId) } returns repo
         every { mapper.mapToUiState(repo) } returns expectedState
 
         val viewModel = RepoDetailsViewModel(repoId, repoDetailsRepository, mapper)
+        advanceUntilIdle()
 
         assertEquals(expectedState, viewModel.state.value)
         assertEquals(null, viewModel.state.value.description)

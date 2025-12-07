@@ -5,6 +5,6 @@ data class RepoDetailUiState(
     val description: String? = null,
     val forksCount: Int = 0,
     val starsCount: Int = 0,
-    val watchersCount: Int = 0,
+    val subscribersCount: Int = 0,
     val lastUpdated: String = "",
 )

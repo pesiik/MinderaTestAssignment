@@ -1,17 +1,17 @@
 package mc.pesiik.pt_android_iliamashin.view
 
-import mc.pesiik.pt_android_iliamashin.domain.Repo
+import mc.pesiik.pt_android_iliamashin.domain.RepoDetails
 import javax.inject.Inject
 
 class RepoDetailStateMapper @Inject constructor() {
 
-    fun mapToUiState(repo: Repo): RepoDetailUiState {
+    fun mapToUiState(repo: RepoDetails): RepoDetailUiState {
         return RepoDetailUiState(
             name = repo.name,
             description = repo.description,
-            forksCount = repo.forkCount,
-            starsCount = repo.starCount,
-            watchersCount = repo.watcherCount,
+            forksCount = repo.forksCount,
+            starsCount = repo.starsCount,
+            subscribersCount = repo.subscribersCount,
             lastUpdated = repo.lastUpdated,
         )
     }
