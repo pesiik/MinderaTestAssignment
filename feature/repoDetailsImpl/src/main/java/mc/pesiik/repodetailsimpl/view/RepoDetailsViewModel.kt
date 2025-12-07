@@ -28,7 +28,7 @@ class RepoDetailsViewModel @AssistedInject constructor(
     }
 
     private fun loadRepoDetails() {
-        // todo handle errors and loading state
+        // todo handle errors
         viewModelScope.launch {
             val repo = repoDetailsRepository.getRepoDetails(repoId)
             val uiState = repoDetailStateMapper.mapToUiState(repo)
