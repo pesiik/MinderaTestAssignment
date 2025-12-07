@@ -25,13 +25,14 @@ data class ReposListState(
 }
 
 data class RepoUiModel(
-    val id: Int,
-    val name: String,
-    val ownerLogin: String,
-    val ownerAvatarUrl: String,
-    val description: String,
-    val starCount: Int,
-    val language: String?,
+    val isShimmer: Boolean = true,
+    val id: Int = 0,
+    val name: String = "",
+    val ownerLogin: String = "",
+    val ownerAvatarUrl: String = "",
+    val description: String = "",
+    val starCount: Int = 0,
+    val language: String? = null,
 )
 
 enum class ReposSortOption(val value: String?) {

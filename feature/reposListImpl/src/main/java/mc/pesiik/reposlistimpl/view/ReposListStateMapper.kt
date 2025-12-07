@@ -17,13 +17,22 @@ class ReposListStateMapper @Inject constructor() {
                     previousState.repos + repos
                 } else {
                     repos
-                }
+                }.filter { !it.isShimmer }
                 previousState.copy(repos = combined, isIdle = false, errorMessage = null)
             }
 
             domain.isFailure -> mapToErrorState(domain)
             else -> throw IllegalStateException("Unreachable state")
         }
+    }
+
+    fun shimmerRepoModels(
+        count: Int,
+        previousState: ReposListState,
+        isPaginating: Boolean,
+    ): List<RepoUiModel> {
+        val previous = previousState.repos.takeIf { isPaginating }.orEmpty()
+        return previous + List(count) { RepoUiModel(isShimmer = true) }
     }
 
     private fun mapReposToUIList(repos: List<Repo>): List<RepoUiModel> {
@@ -39,6 +48,7 @@ class ReposListStateMapper @Inject constructor() {
             description = repo.description.orEmpty(),
             starCount = repo.starsCount,
             language = repo.language,
+            isShimmer = false,
         )
     }
 

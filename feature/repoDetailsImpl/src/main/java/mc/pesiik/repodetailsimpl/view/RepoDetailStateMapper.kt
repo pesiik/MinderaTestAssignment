@@ -13,6 +13,7 @@ class RepoDetailStateMapper @Inject constructor() {
             starsCount = repo.starsCount,
             subscribersCount = repo.subscribersCount,
             lastUpdated = repo.lastUpdated,
+            isLoading = false,
         )
     }
 }

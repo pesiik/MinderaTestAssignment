@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import mc.pesiik.viewmodel.launchCatching
 import mc.pesiik.reposlistapi.domain.Repo
 import mc.pesiik.reposlistapi.domain.ReposRepository
+import mc.pesiik.viewmodel.launchCatching
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
@@ -74,7 +74,7 @@ class ReposListViewModel @Inject constructor(
     }
 
     private fun performSearch(query: String, page: Int = 1) {
-        // todo Should add skeleton/loading state
+        updateReposListWithShimmers(page)
         val sortOption = _state.value.selectedSortOption
         launchCatching(
             block = {
@@ -98,6 +98,19 @@ class ReposListViewModel @Inject constructor(
             isPaginating = page > 1,
         )
         _state.value = newState
+    }
+
+    private fun updateReposListWithShimmers(page: Int) {
+        val shimmeredState = reposListStateMapper.shimmerRepoModels(
+            count = SHIMMERS_COUNT,
+            previousState = _state.value,
+            isPaginating = page > 1,
+        )
+        _state.update {
+            it.copy(
+                repos = shimmeredState
+            )
+        }
     }
 
     private fun toggleSearchMode(isInSearchMode: Boolean) {
@@ -159,5 +172,6 @@ class ReposListViewModel @Inject constructor(
         private const val DEBOUNCE_MILLIS = 500L
         private const val PER_PAGE_COUNT = 30
         private const val START_PAGINATION_STEP = 15
+        private const val SHIMMERS_COUNT = 5
     }
 }

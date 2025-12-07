@@ -1,6 +1,11 @@
-package mc.pesiik.pt_android_iliamashin.ui.list.components
+package mc.pesiik.reposlistimpl.ui.components
 
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,13 +25,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import coil.compose.AsyncImage
@@ -43,13 +56,22 @@ fun RepoCard(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(1f)
-            .clickable { onClick(repo.id) },
+            .clickable {
+                if (!repo.isShimmer) onClick(repo.id)
+            },
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .run {
+                    if (repo.isShimmer) {
+                        shimmerEffect()
+                    } else {
+                        this
+                    }
+                }
+                .padding(16.dp)
         ) {
             OwnerBlock(
                 ownerLogin = repo.ownerLogin,
@@ -163,6 +185,40 @@ private fun formatStarCount(count: Int): String {
     return when {
         count >= 1000 -> stringResource(R.string.repo_list_formatted_stars, count / 1000.0)
         else -> count.toString()
+    }
+}
+
+private fun Modifier.shimmerEffect(): Modifier = composed {
+    var size by remember {
+        mutableStateOf(IntSize.Zero)
+    }
+    val transition = rememberInfiniteTransition()
+    val startOffsetX = transition.animateFloat(
+        initialValue = -2 * size.width.toFloat(),
+        targetValue = 2 * size.width.toFloat(),
+        animationSpec = infiniteRepeatable(
+            tween(durationMillis = 1000)
+        )
+    )
+
+    background(
+        brush = Brush.linearGradient(
+            colors = listOf(
+                MaterialTheme.colorScheme.surfaceVariant,
+                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f),
+                MaterialTheme.colorScheme.surfaceVariant,
+            ),
+            start = androidx.compose.ui.geometry.Offset(
+                x = startOffsetX.value,
+                y = 0f
+            ),
+            end = androidx.compose.ui.geometry.Offset(
+                x = startOffsetX.value + size.width.toFloat(),
+                y = size.height.toFloat()
+            )
+        )
+    ).onGloballyPositioned {
+        size = it.size
     }
 }
 

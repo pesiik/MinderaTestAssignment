@@ -28,6 +28,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import mc.pesiik.navigation.RepoDetailsDestination
 import mc.pesiik.repodetailsimpl.ui.components.RepoDetailsContent
+import mc.pesiik.repodetailsimpl.ui.components.RepoDetailsLoadingScreen
 import mc.pesiik.repodetailsimpl.view.RepoDetailsViewModel
 
 
@@ -76,16 +77,23 @@ fun RepoDetailsScreen(
             )
             .safeDrawingPadding(),
         topBar = {
-            RepoDetailsTopAppBar(
-                title = state.name,
-                onBackClick = onBackClick
-            )
+            if (!state.isLoading) {
+                RepoDetailsTopAppBar(
+                    title = state.name,
+                    onBackClick = onBackClick
+                )
+            }
         }
     ) { paddingValues ->
-        RepoDetailsContent(
-            state = state,
-            modifier = Modifier.padding(paddingValues)
-        )
+        val modifier = Modifier.padding(paddingValues)
+        if (state.isLoading) {
+            RepoDetailsLoadingScreen(modifier)
+        } else {
+            RepoDetailsContent(
+                state = state,
+                modifier = modifier
+            )
+        }
     }
 }
 

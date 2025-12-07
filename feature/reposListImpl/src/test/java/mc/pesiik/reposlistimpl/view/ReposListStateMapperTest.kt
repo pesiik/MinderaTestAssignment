@@ -72,8 +72,13 @@ class ReposListStateMapperTest {
             description = "New description",
             starCount = 50,
             language = "Java",
+            isShimmer = false
         )
-        val expectedState = ReposListState(repos = listOf(expectedUiModel))
+        val expectedState = ReposListState(
+            repos = listOf(expectedUiModel),
+            isIdle = false,
+            errorMessage = null
+        )
 
         assertEquals(expectedState, newState)
     }
@@ -123,9 +128,12 @@ class ReposListStateMapperTest {
             description = "Updated description",
             starCount = 150,
             language = "Python",
+            isShimmer = false
         )
         val expectedState = ReposListState(
-            repos = listOf(expectedUiModel)
+            repos = listOf(expectedUiModel),
+            isIdle = false,
+            errorMessage = null
         )
 
         assertEquals(expectedState, newState)
@@ -142,6 +150,7 @@ class ReposListStateMapperTest {
             description = "Existing description",
             starCount = 100,
             language = "Kotlin",
+            isShimmer = false,
         )
         val previousState = ReposListState(repos = listOf(existingRepo))
 
@@ -174,12 +183,114 @@ class ReposListStateMapperTest {
             description = "New description",
             starCount = 50,
             language = "Java",
+            isShimmer = false
         )
         val expectedState = ReposListState(
-            repos = listOf(existingRepo, expectedNewUiModel)
+            repos = listOf(existingRepo, expectedNewUiModel),
+            isIdle = false,
+            errorMessage = null
         )
 
         assertEquals(expectedState, newState)
         assertEquals(2, newState.repos.size)
+    }
+
+    @Test
+    fun `WHEN shimmerRepoModels with isPaginating false THEN return shimmer items only`() {
+        // Given
+        val previousState = ReposListState(
+            repos = listOf(
+                RepoUiModel(
+                    id = 1,
+                    name = "ExistingRepo",
+                    ownerLogin = "existingOwner",
+                    ownerAvatarUrl = "http://example.com/existing.png",
+                    description = "Existing description",
+                    starCount = 100,
+                    language = "Kotlin",
+                )
+            )
+        )
+
+        // When
+        val shimmers = mapper.shimmerRepoModels(
+            count = 3,
+            previousState = previousState,
+            isPaginating = false
+        )
+
+        // Then
+        assertEquals(3, shimmers.size)
+        assert(shimmers.all { it.isShimmer })
+    }
+
+    @Test
+    fun `WHEN shimmerRepoModels with isPaginating true THEN append shimmers to existing repos`() {
+        // Given
+        val existingRepo = RepoUiModel(
+            id = 1,
+            name = "ExistingRepo",
+            ownerLogin = "existingOwner",
+            ownerAvatarUrl = "http://example.com/existing.png",
+            description = "Existing description",
+            starCount = 100,
+            language = "Kotlin",
+        )
+        val previousState = ReposListState(repos = listOf(existingRepo))
+
+        // When
+        val shimmers = mapper.shimmerRepoModels(
+            count = 2,
+            previousState = previousState,
+            isPaginating = true
+        )
+
+        // Then
+        assertEquals(3, shimmers.size)
+        assertEquals(existingRepo, shimmers[0])
+        assert(shimmers[1].isShimmer)
+        assert(shimmers[2].isShimmer)
+    }
+
+    @Test
+    fun `WHEN map success with shimmer items in previous state THEN filter out shimmers`() {
+        // Given
+        val realRepo = RepoUiModel(
+            id = 1,
+            name = "RealRepo",
+            ownerLogin = "realOwner",
+            ownerAvatarUrl = "http://example.com/real.png",
+            description = "Real description",
+            starCount = 100,
+            language = "Kotlin",
+            isShimmer = false,
+        )
+        val shimmerRepo = RepoUiModel(isShimmer = true)
+        val previousState = ReposListState(repos = listOf(realRepo, shimmerRepo))
+
+        val newRepo = Repo(
+            id = 2,
+            name = "NewRepo",
+            ownerLogin = "newOwner",
+            ownerAvatarUrl = "http://example.com/new.png",
+            description = "New description",
+            starsCount = 50,
+            language = "Java",
+            forksCount = 10,
+            lastUpdated = "2024-06-01T12:00:00Z",
+        )
+        val domainResult = Result.success(listOf(newRepo))
+
+        // When
+        val newState = mapper.mapDomainToUIState(
+            domain = domainResult,
+            previousState = previousState,
+            isPaginating = true
+        )
+
+        // Then
+        assertEquals(2, newState.repos.size)
+        assert(newState.repos.none { it.isShimmer })
+        assertEquals(realRepo, newState.repos[0])
     }
 }

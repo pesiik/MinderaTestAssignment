@@ -40,7 +40,7 @@
 ### For the candidate (you) to fill:
 
 - Have you implemented all the features?
-- [x] Yes (but not all nice-to-haves, proper error screen and skeleton loaders are missing)
+- [x] Yes (but not all nice-to-haves and no proper error screen)
 - [ ] No
 
 

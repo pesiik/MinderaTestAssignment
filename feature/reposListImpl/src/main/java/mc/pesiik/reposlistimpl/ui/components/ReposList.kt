@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.distinctUntilChanged
 import mc.pesiik.reposlistimpl.R
-import mc.pesiik.pt_android_iliamashin.ui.list.components.RepoCard
 import mc.pesiik.reposlistimpl.view.ReposListState
 
 @Composable

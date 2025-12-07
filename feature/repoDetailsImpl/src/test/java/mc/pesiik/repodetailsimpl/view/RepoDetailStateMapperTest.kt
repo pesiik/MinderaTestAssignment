@@ -2,6 +2,7 @@ package mc.pesiik.repodetailsimpl.view
 
 import mc.pesiik.repodetailsapi.domain.model.RepoDetails
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Test
 
 class RepoDetailStateMapperTest {
@@ -30,7 +31,8 @@ class RepoDetailStateMapperTest {
             forksCount = 50,
             starsCount = 100,
             subscribersCount = 75,
-            lastUpdated = "2024-01-15T10:30:00Z"
+            lastUpdated = "2024-01-15T10:30:00Z",
+            isLoading = false
         )
 
         assertEquals(expectedState, uiState)
@@ -45,7 +47,7 @@ class RepoDetailStateMapperTest {
             starsCount = 200,
             forksCount = 100,
             subscribersCount = 150,
-            lastUpdated = "2024-02-20T14:45:00Z"
+            lastUpdated = "2024-02-20T14:45:00Z",
         )
 
         // When
@@ -57,5 +59,6 @@ class RepoDetailStateMapperTest {
         assertEquals(100, uiState.forksCount)
         assertEquals(200, uiState.starsCount)
         assertEquals(150, uiState.subscribersCount)
+        assertFalse(uiState.isLoading)
     }
 }

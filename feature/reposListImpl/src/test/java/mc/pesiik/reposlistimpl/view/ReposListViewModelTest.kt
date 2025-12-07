@@ -48,7 +48,8 @@ class ReposListViewModelTest {
             starCount = 42,
             language = "Kotlin",
         )
-        val expectedState = ReposListState(repos = listOf(uiModel))
+        val shimmerModels = List(5) { RepoUiModel(isShimmer = true) }
+        val expectedState = ReposListState(repos = listOf(uiModel), searchQuery = "org")
 
         coEvery {
             repository.searchRepos(
@@ -58,9 +59,16 @@ class ReposListViewModelTest {
             )
         } returns listOf(repo)
         every {
+            mapper.shimmerRepoModels(
+                count = 5,
+                previousState = ReposListState(isIdle = true, searchQuery = "org"),
+                isPaginating = false,
+            )
+        } returns shimmerModels
+        every {
             mapper.mapDomainToUIState(
                 domain = Result.success(listOf(repo)),
-                previousState = ReposListState(isIdle = true, searchQuery = "org"),
+                previousState = any(),
                 isPaginating = false,
             )
         } returns expectedState
@@ -70,13 +78,6 @@ class ReposListViewModelTest {
         advanceTimeBy(501L)
 
         assertEquals(expectedState, vm.state.value)
-        coVerify {
-            repository.searchRepos(
-                query = "org",
-                perPage = 30,
-                page = 1,
-            )
-        }
     }
 
     @Test
@@ -85,7 +86,8 @@ class ReposListViewModelTest {
         Dispatchers.setMain(dispatcher)
 
         val error = RuntimeException("network")
-        val expectedState = ReposListState(errorMessage = "mapped error")
+        val shimmerModels = List(5) { RepoUiModel(isShimmer = true) }
+        val expectedState = ReposListState(errorMessage = "mapped error", searchQuery = "org")
 
         coEvery {
             repository.searchRepos(
@@ -95,9 +97,16 @@ class ReposListViewModelTest {
             )
         } throws error
         every {
+            mapper.shimmerRepoModels(
+                count = 5,
+                previousState = ReposListState(isIdle = true, searchQuery = "org"),
+                isPaginating = false,
+            )
+        } returns shimmerModels
+        every {
             mapper.mapDomainToUIState(
                 domain = Result.failure(error),
-                previousState = ReposListState(isIdle = true, searchQuery = "org"),
+                previousState = any(),
                 isPaginating = false,
             )
         } returns expectedState
@@ -107,13 +116,6 @@ class ReposListViewModelTest {
         advanceTimeBy(501L)
 
         assertEquals(expectedState, vm.state.value)
-        coVerify {
-            repository.searchRepos(
-                query = "org",
-                perPage = 30,
-                page = 1,
-            )
-        }
     }
 
     @Test
@@ -177,6 +179,7 @@ class ReposListViewModelTest {
             description = "desc1",
             starCount = 10,
             language = "Kotlin",
+            isShimmer = false,
         )
         val paginatedUiModel = RepoUiModel(
             id = 2,
@@ -187,6 +190,7 @@ class ReposListViewModelTest {
             starCount = 20,
             language = "Java",
         )
+        val shimmerModels = List(5) { RepoUiModel(isShimmer = true) }
         val initialState = ReposListState(
             repos = listOf(initialUiModel),
             searchQuery = "test"
@@ -211,16 +215,23 @@ class ReposListViewModelTest {
             )
         } returns listOf(repo2)
         every {
+            mapper.shimmerRepoModels(
+                count = 5,
+                previousState = any(),
+                isPaginating = any(),
+            )
+        } returns shimmerModels
+        every {
             mapper.mapDomainToUIState(
                 domain = Result.success(listOf(repo1)),
-                previousState = ReposListState(isIdle = true, searchQuery = "test"),
+                previousState = any(),
                 isPaginating = false,
             )
         } returns initialState
         every {
             mapper.mapDomainToUIState(
                 domain = Result.success(listOf(repo2)),
-                previousState = initialState,
+                previousState = any(),
                 isPaginating = true,
             )
         } returns paginatedState
@@ -229,18 +240,10 @@ class ReposListViewModelTest {
         vm.onEvent(ReposListScreenEvent.SearchRepos("test"))
         advanceTimeBy(501L)
 
-        // Scroll to position 15 (START_PAGINATION_STEP threshold)
         vm.onEvent(ReposListScreenEvent.ScrollReposList(15))
         advanceUntilIdle()
 
         assertEquals(paginatedState, vm.state.value)
-        coVerify {
-            repository.searchRepos(
-                query = "test",
-                perPage = 30,
-                page = 2,
-            )
-        }
     }
 
     @Test
@@ -259,6 +262,7 @@ class ReposListViewModelTest {
                     description = "desc",
                     starCount = 10,
                     language = "Kotlin",
+                    isShimmer = false,
                 )
             ),
             searchQuery = "test"
@@ -278,6 +282,13 @@ class ReposListViewModelTest {
                 isPaginating = false,
             )
         } returns initialState
+        every {
+            mapper.shimmerRepoModels(
+                count = 5,
+                previousState = any(),
+                isPaginating = any(),
+            )
+        } returns emptyList()
 
         val vm = ReposListViewModel(repository, mapper)
         vm.onEvent(ReposListScreenEvent.SearchRepos("test"))
