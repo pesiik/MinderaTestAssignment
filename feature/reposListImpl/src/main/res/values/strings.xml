@@ -14,4 +14,6 @@
     <string name="repo_list_sort_option_updated">By Last Updated</string>
     <string name="repo_list_sort_ok">OK</string>
     <string name="repo_list_sort_cancel">Cancel</string>
+    <string name="repo_list_error_message">An error occurred while loading repositories.</string>
+    <string name="repo_list_retry_button">Retry</string>
 </resources>

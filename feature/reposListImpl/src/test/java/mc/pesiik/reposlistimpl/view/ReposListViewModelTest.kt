@@ -387,4 +387,81 @@ class ReposListViewModelTest {
             )
         }
     }
+
+    @Test
+    fun `retry load repos triggers search with current query`() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+
+        val repo: Repo = mockk()
+        val uiModel = RepoUiModel(
+            id = 1,
+            name = "repo",
+            ownerLogin = "owner",
+            ownerAvatarUrl = "avatar",
+            description = "desc",
+            starCount = 50,
+            language = "Kotlin",
+        )
+        val shimmerModels = List(5) { RepoUiModel(isShimmer = true) }
+        val errorState = ReposListState(
+            errorMessage = "network error",
+            searchQuery = "test"
+        )
+        val successState = ReposListState(
+            repos = listOf(uiModel),
+            searchQuery = "test"
+        )
+
+        val error = RuntimeException("network")
+        coEvery {
+            repository.searchRepos(
+                query = "test",
+                perPage = 30,
+                page = 1,
+            )
+        } throws error andThen listOf(repo)
+
+        every {
+            mapper.shimmerRepoModels(
+                count = 5,
+                previousState = any(),
+                isPaginating = false,
+            )
+        } returns shimmerModels
+
+        every {
+            mapper.mapDomainToUIState(
+                domain = Result.failure(error),
+                previousState = any(),
+                isPaginating = false,
+            )
+        } returns errorState
+
+        every {
+            mapper.mapDomainToUIState(
+                domain = Result.success(listOf(repo)),
+                previousState = any(),
+                isPaginating = false,
+            )
+        } returns successState
+
+        val vm = ReposListViewModel(repository, mapper)
+        vm.onEvent(ReposListScreenEvent.SearchRepos("test"))
+        advanceTimeBy(501L)
+
+        assertEquals(errorState, vm.state.value)
+
+        vm.onEvent(ReposListScreenEvent.RetryLoadRepos)
+        advanceUntilIdle()
+
+        assertEquals(successState, vm.state.value)
+        coVerify(exactly = 2) {
+            repository.searchRepos(
+                query = "test",
+                perPage = 30,
+                page = 1,
+            )
+        }
+    }
 }

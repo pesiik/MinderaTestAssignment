@@ -7,6 +7,7 @@ sealed class ReposListScreenEvent {
     data class ScrollReposList(val lastVisiblePosition: Int) : ReposListScreenEvent()
     data object SortClicked : ReposListScreenEvent()
     data class SortedByOptionSelected(val sortOption: ReposSortOption) : ReposListScreenEvent()
+    data object RetryLoadRepos : ReposListScreenEvent()
     data object BackButtonClicked : ReposListScreenEvent()
 }
 

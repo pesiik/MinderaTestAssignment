@@ -61,6 +61,7 @@ class ReposListViewModel @Inject constructor(
             is ReposListScreenEvent.ScrollReposList -> tryToLoadNextPage(event.lastVisiblePosition)
             is ReposListScreenEvent.SortClicked -> sortMenu(show = true)
             is ReposListScreenEvent.SortedByOptionSelected -> sortReposList(sortOption = event.sortOption)
+            is ReposListScreenEvent.RetryLoadRepos -> retryLoadRepos()
             is ReposListScreenEvent.BackButtonClicked -> backButtonClicked()
         }
     }
@@ -155,6 +156,11 @@ class ReposListViewModel @Inject constructor(
             resetPagination()
             performSearch(currentQuery)
         }
+    }
+
+    private fun retryLoadRepos() {
+        val currentQuery = searchQueryFlow.value
+        performSearch(currentQuery, page = 1)
     }
 
     private fun backButtonClicked() {
