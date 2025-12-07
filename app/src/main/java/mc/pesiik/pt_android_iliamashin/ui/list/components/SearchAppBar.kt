@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
@@ -108,9 +109,7 @@ private fun AppBarWithSearchAndTitle(
     TextField(
         modifier = Modifier
             .wrapContentWidth()
-            .height(
-                TopAppBarDefaults.TopAppBarExpandedHeight
-            )
+            .height(TopAppBarDefaults.TopAppBarExpandedHeight)
             .focusRequester(focusRequester),
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = MaterialTheme.colorScheme.primary,
@@ -120,6 +119,10 @@ private fun AppBarWithSearchAndTitle(
             cursorColor = MaterialTheme.colorScheme.onPrimary,
             focusedTextColor = MaterialTheme.colorScheme.onPrimary,
             focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
+            selectionColors = TextSelectionColors(
+                handleColor = MaterialTheme.colorScheme.onSecondary,
+                backgroundColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.4f)
+            )
         ),
         value = state.searchQuery,
         onValueChange = onQueryChange,
