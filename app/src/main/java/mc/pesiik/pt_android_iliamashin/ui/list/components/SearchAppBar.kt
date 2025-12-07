@@ -93,7 +93,9 @@ private fun BackButton(
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             tint = MaterialTheme.colorScheme.onPrimary,
-            contentDescription = stringResource(R.string.back_button)
+            contentDescription = stringResource(
+                id = com.yourapp.core.resources.R.string.back_button
+            )
         )
     }
 }

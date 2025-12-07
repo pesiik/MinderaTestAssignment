@@ -53,6 +53,7 @@ dependencies {
     // --- Feature dependencies ---
     implementation(project(":core:cache"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:resources"))
     implementation(project(":feature:repoDetailsApi"))
     implementation(project(":feature:reposListApi"))
 

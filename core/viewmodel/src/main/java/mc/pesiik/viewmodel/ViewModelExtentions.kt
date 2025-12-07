@@ -1,4 +1,4 @@
-package mc.pesiik.pt_android_iliamashin.core
+package mc.pesiik.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

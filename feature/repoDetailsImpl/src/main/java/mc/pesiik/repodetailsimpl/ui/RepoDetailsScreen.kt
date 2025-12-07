@@ -114,7 +114,9 @@ private fun RepoDetailsTopAppBar(
             IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.repo_details_back_button),
+                    contentDescription = stringResource(
+                        id = com.yourapp.core.resources.R.string.back_button
+                    ),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }

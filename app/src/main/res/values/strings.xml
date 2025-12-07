@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">PT_Android_iliaMashin</string>
-    <string name="back_button">Back</string>
     <string name="repos_list_title">Github Repositories</string>
     <string name="repos_list_empty">There are no repos by this request</string>
     <string name="repos_list_search_content_description">Search…</string>
