@@ -40,7 +40,7 @@
 ### For the candidate (you) to fill:
 
 - Have you implemented all the features?
-- [x] Yes (but not all nice-to-haves and no proper error screen)
+- [x] Yes (but without nice-to-haves)
 - [ ] No
 
 
