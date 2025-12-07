@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import mc.pesiik.pt_android_iliamashin.core.launchCatching
-import mc.pesiik.pt_android_iliamashin.domain.Repo
-import mc.pesiik.pt_android_iliamashin.domain.ReposRepository
+import mc.pesiik.reposlistapi.domain.Repo
+import mc.pesiik.reposlistapi.domain.ReposRepository
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)

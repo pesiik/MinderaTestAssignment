@@ -13,8 +13,8 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import mc.pesiik.pt_android_iliamashin.domain.Repo
-import mc.pesiik.pt_android_iliamashin.domain.ReposRepository
+import mc.pesiik.reposlistapi.domain.Repo
+import mc.pesiik.reposlistapi.domain.ReposRepository
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test

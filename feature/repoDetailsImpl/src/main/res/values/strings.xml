@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="repo_details_back_button">Back</string> // todo remove duplication with app module
+    <string name="repo_details_published_at_label">Last updated: %s</string>
+    <string name="repo_details_stars">Stars: </string>
+    <string name="repo_details_forks">Forks: </string>
+    <string name="repo_details_watchers">Watchers: </string>
+</resources>

@@ -1,21 +1,23 @@
 package mc.pesiik.pt_android_iliamashin.data
 
-import mc.pesiik.pt_android_iliamashin.core.cache.ReposTemporaryCache
+import mc.pesiik.cache.TemporaryCache
 import mc.pesiik.pt_android_iliamashin.data.mapper.ReposMapper
-import mc.pesiik.pt_android_iliamashin.domain.Repo
-import mc.pesiik.pt_android_iliamashin.domain.ReposRepository
+import mc.pesiik.reposlistapi.domain.Repo
+import mc.pesiik.reposlistapi.domain.ReposRepository
 import javax.inject.Inject
 
 class ReposRepositoryImpl @Inject constructor(
     private val gitReposService: GitReposService,
     private val reposMapper: ReposMapper,
-    private val reposTemporaryCache: ReposTemporaryCache,
+    private val temporaryCache: TemporaryCache,
 ) : ReposRepository {
 
     override suspend fun searchRepos(query: String, perPage: Int, page: Int, sort: String?): List<Repo> {
         val reposDtos = gitReposService.searchRepos(query, perPage, page, sort)
         return reposDtos.items.map { repoDto ->
-            reposMapper.mapDtoToDomain(repoDto).also(reposTemporaryCache::putRepo)
+            reposMapper.mapDtoToDomain(repoDto).also { repo ->
+                temporaryCache.put(repo.id, repo)
+            }
         }
     }
 }

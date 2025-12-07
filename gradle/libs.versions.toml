@@ -36,6 +36,11 @@ coil-compose = "2.7.0"
 
 # Other versions can be added here as needed
 kotlinxDatetime = "0.6.1"
+jetbrainsKotlinJvm = "2.1.10"
+coreKtx = "1.17.0"
+junit = "4.13.2"
+appcompat = "1.7.1"
+material = "1.13.0"
 
 [plugins]
 android-application = { id = "com.android.application",                 version.ref = "androidGradlePlugin" }
@@ -44,6 +49,8 @@ kotlin-compose      = { id = "org.jetbrains.kotlin.plugin.compose",     version.
 kotlin-serialization= { id = "org.jetbrains.kotlin.plugin.serialization",version.ref = "kotlin" }
 hilt                = { id = "com.google.dagger.hilt.android",          version.ref = "hilt" }
 ksp                 = { id = "com.google.devtools.ksp",                 version.ref = "ksp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 
 [libraries]
 # --- BOMs ---

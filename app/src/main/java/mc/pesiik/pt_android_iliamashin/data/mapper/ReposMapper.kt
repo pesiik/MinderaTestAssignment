@@ -1,7 +1,7 @@
 package mc.pesiik.pt_android_iliamashin.data.mapper
 
 import mc.pesiik.pt_android_iliamashin.data.model.RepoDto
-import mc.pesiik.pt_android_iliamashin.domain.Repo
+import mc.pesiik.reposlistapi.domain.Repo
 import javax.inject.Inject
 
 class ReposMapper @Inject constructor() {

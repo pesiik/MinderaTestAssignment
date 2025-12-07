@@ -4,11 +4,11 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import mc.pesiik.pt_android_iliamashin.core.cache.ReposTemporaryCache
+import mc.pesiik.cache.TemporaryCache
 import mc.pesiik.pt_android_iliamashin.data.mapper.ReposMapper
 import mc.pesiik.pt_android_iliamashin.data.model.RepoDto
 import mc.pesiik.pt_android_iliamashin.data.model.ReposDto
-import mc.pesiik.pt_android_iliamashin.domain.Repo
+import mc.pesiik.reposlistapi.domain.Repo
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -16,13 +16,13 @@ class ReposRepositoryImplTest {
 
     private val service: GitReposService = mockk()
     private val mapper: ReposMapper = mockk()
-    private val cache: ReposTemporaryCache = mockk(
+    private val cache: TemporaryCache = mockk(
         relaxUnitFun = true
     )
     private val repository = ReposRepositoryImpl(
         gitReposService = service,
         reposMapper = mapper,
-        reposTemporaryCache = cache,
+        temporaryCache = cache,
     )
 
     @Test
@@ -45,7 +45,9 @@ class ReposRepositoryImplTest {
             incompleteResults = false,
             items = listOf(repoDto)
         )
-        val domainRepo: Repo = mockk()
+        val domainRepo: Repo = mockk {
+            coEvery { id } returns 1
+        }
         coEvery {
             service.searchRepos(
                 q = "org",
@@ -75,6 +77,6 @@ class ReposRepositoryImplTest {
             )
         }
         coVerify { mapper.mapDtoToDomain(any()) }
-        coVerify { cache.putRepo(domainRepo) }
+        coVerify { cache.put(1, domainRepo) }
     }
 }

@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import mc.pesiik.pt_android_iliamashin.data.ReposRepositoryImpl
-import mc.pesiik.pt_android_iliamashin.domain.ReposRepository
+import mc.pesiik.reposlistapi.domain.ReposRepository
 
 @Module
 @InstallIn(ViewModelComponent::class)

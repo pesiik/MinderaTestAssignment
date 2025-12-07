@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import mc.pesiik.pt_android_iliamashin.core.navigation.ReposListDestination
+import mc.pesiik.navigation.ReposListDestination
 import mc.pesiik.pt_android_iliamashin.ui.list.components.ReposList
 import mc.pesiik.pt_android_iliamashin.ui.list.components.SearchAppBar
 import mc.pesiik.pt_android_iliamashin.ui.list.components.SortDialog

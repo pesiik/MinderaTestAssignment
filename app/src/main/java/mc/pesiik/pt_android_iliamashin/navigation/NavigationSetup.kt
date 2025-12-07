@@ -4,10 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import mc.pesiik.pt_android_iliamashin.core.navigation.RepoDetailsDestination
-import mc.pesiik.pt_android_iliamashin.core.navigation.ReposListDestination
-import mc.pesiik.pt_android_iliamashin.ui.details.navigateToRepoDetails
-import mc.pesiik.pt_android_iliamashin.ui.details.repoDetailsScreen
+import mc.pesiik.navigation.ReposListDestination
+import mc.pesiik.repodetailsimpl.ui.navigateToRepoDetails
+import mc.pesiik.repodetailsimpl.ui.repoDetailsScreen
 import mc.pesiik.pt_android_iliamashin.ui.list.reposListScreen
 
 @Composable

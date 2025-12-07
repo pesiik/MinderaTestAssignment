@@ -69,6 +69,13 @@ android {
 }
 
 dependencies {
+    // -- Feature modules ---
+    implementation(project(":feature:repoDetailsApi"))
+    implementation(project(":feature:repoDetailsImpl"))
+    implementation(project(":feature:reposListApi"))
+    implementation(project(":core:cache"))
+    implementation(project(":core:navigation"))
+
     // --- BOMs ---
     implementation(platform(libs.androidx.compose.bom))
     implementation(platform(libs.okhttp.bom))
@@ -107,9 +114,6 @@ dependencies {
 
     // Image loading: Coil Compose
     implementation(libs.coil.compose)
-
-    // --- Other dependencies ---
-    implementation(libs.kotlinx.datetime)
 
     // --- Unit tests ---
     testImplementation(libs.junit.jupiter.api)

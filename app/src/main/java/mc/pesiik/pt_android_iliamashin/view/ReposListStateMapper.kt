@@ -1,6 +1,6 @@
 package mc.pesiik.pt_android_iliamashin.view
 
-import mc.pesiik.pt_android_iliamashin.domain.Repo
+import mc.pesiik.reposlistapi.domain.Repo
 import javax.inject.Inject
 
 class ReposListStateMapper @Inject constructor() {

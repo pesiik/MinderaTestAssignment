@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "PT_Android_iliaMashin"
 include(":app")
- 
+include(":feature:repoDetailsApi")
+include(":feature:repoDetailsImpl")
+include(":core:cache")
+include(":feature:reposListApi")
+include(":core:navigation")
