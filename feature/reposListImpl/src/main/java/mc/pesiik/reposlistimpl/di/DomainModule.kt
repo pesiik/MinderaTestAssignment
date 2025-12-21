@@ -9,7 +9,7 @@ import mc.pesiik.reposlistimpl.data.ReposRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
-interface DomainModule {
+internal interface DomainModule {
 
     @Binds
     fun bindReposRepository(

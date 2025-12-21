@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 
 
-class RepoDetailsMapperTest {
+internal class RepoDetailsMapperTest {
 
     private lateinit var mapper: RepoDetailsMapper
 

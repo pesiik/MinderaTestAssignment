@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import mc.pesiik.reposlistimpl.R
 
 @Composable
-fun SimpleErrorScreen(
+internal fun SimpleErrorScreen(
     modifier: Modifier = Modifier,
     message: String,
     onRetry: ()-> Unit,

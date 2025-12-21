@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RepoDto(
+internal data class RepoDto(
     val id: Int,
     val name: String,
     val owner: OwnerDto,

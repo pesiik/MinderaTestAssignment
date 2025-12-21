@@ -36,7 +36,7 @@ fun NavGraphBuilder.reposListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReposScreenList(
+internal fun ReposScreenList(
     viewModel: ReposListViewModel = hiltViewModel(),
     onRepoClick: (Int) -> Unit,
     onClose: () -> Unit,

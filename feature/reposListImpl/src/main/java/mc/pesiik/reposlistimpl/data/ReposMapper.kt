@@ -3,7 +3,7 @@ package mc.pesiik.reposlistimpl.data
 import mc.pesiik.reposlistapi.domain.Repo
 import javax.inject.Inject
 
-class ReposMapper @Inject constructor() {
+internal class ReposMapper @Inject constructor() {
     fun mapDtoToDomain(
         repoDto: RepoDto
     ): Repo {

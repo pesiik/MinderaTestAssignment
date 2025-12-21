@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import mc.pesiik.repodetailsapi.domain.RepoDetailsRepository
 
 @HiltViewModel(assistedFactory = RepoDetailsViewModel.Factory::class)
-class RepoDetailsViewModel @AssistedInject constructor(
+internal class RepoDetailsViewModel @AssistedInject constructor(
     @Assisted private val repoId: Int,
     private val repoDetailsRepository: RepoDetailsRepository,
     private val repoDetailStateMapper: RepoDetailStateMapper,

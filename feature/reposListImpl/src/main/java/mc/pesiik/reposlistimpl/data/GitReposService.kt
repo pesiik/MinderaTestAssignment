@@ -3,7 +3,7 @@ package mc.pesiik.reposlistimpl.data
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface GitReposService {
+internal interface GitReposService {
     @GET("/search/repositories")
     suspend fun searchRepos(
         @Query("q") q: String,

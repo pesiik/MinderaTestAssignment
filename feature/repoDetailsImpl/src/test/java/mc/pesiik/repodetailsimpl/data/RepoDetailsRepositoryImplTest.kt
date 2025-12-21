@@ -11,7 +11,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class RepoDetailsRepositoryImplTest {
+internal class RepoDetailsRepositoryImplTest {
 
     private lateinit var temporaryCache: TemporaryCache
     private lateinit var gitRepoDetailService: GitRepoDetailService

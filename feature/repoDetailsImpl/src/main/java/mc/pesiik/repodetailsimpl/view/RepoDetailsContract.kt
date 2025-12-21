@@ -1,6 +1,6 @@
 package mc.pesiik.repodetailsimpl.view
 
-data class RepoDetailUiState(
+internal data class RepoDetailUiState(
     val name: String = "",
     val description: String? = null,
     val forksCount: Int = 0,

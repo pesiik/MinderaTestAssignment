@@ -33,7 +33,7 @@ import mc.pesiik.reposlistimpl.view.ReposListState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchAppBar(
+internal fun SearchAppBar(
     state: ReposListState,
     onQueryChange: (String) -> Unit,
     onSearchModeToggle: (Boolean) -> Unit,

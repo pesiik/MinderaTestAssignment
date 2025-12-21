@@ -63,7 +63,7 @@ fun NavGraphBuilder.repoDetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RepoDetailsScreen(
+internal fun RepoDetailsScreen(
     viewModel: RepoDetailsViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
 ) {

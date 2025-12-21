@@ -20,7 +20,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class RepoDetailsViewModelTest {
+internal class RepoDetailsViewModelTest {
 
     private val repoDetailsRepository: RepoDetailsRepository = mockk()
     private val mapper: RepoDetailStateMapper = mockk()

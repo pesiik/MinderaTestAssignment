@@ -3,7 +3,7 @@ package mc.pesiik.reposlistimpl.view
 import mc.pesiik.reposlistapi.domain.Repo
 import javax.inject.Inject
 
-class ReposListStateMapper @Inject constructor() {
+internal class ReposListStateMapper @Inject constructor() {
 
     fun mapDomainToUIState(
         domain: Result<List<Repo>>,

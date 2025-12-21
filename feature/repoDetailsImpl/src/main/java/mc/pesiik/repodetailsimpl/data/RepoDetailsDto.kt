@@ -3,7 +3,7 @@ package mc.pesiik.repodetailsimpl.data
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 @Serializable
-data class RepoDetailsDto(
+internal data class RepoDetailsDto(
     val name: String,
     val description: String?,
     @SerialName("stargazers_count") val stargazersCount: Int,

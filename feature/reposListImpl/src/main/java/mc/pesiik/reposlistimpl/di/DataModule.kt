@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object DataModule {
+internal object DataModule {
     @Provides
     fun provideRepoApiService(retrofit: Retrofit): GitReposService {
         return retrofit.create(GitReposService::class.java)

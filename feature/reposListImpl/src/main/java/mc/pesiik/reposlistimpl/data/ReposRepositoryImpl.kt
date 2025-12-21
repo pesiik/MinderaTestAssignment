@@ -5,7 +5,7 @@ import mc.pesiik.reposlistapi.domain.Repo
 import mc.pesiik.reposlistapi.domain.ReposRepository
 import javax.inject.Inject
 
-class ReposRepositoryImpl @Inject constructor(
+internal class ReposRepositoryImpl @Inject constructor(
     private val gitReposService: GitReposService,
     private val reposMapper: ReposMapper,
     private val temporaryCache: TemporaryCache,

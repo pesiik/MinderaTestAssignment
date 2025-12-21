@@ -23,7 +23,7 @@ import mc.pesiik.reposlistimpl.R
 import mc.pesiik.reposlistimpl.view.ReposSortOption
 
 @Composable
-fun SortDialog(
+internal fun SortDialog(
     onSortOptionSelected: (ReposSortOption) -> Unit,
     currentSortOption: ReposSortOption,
 ) {

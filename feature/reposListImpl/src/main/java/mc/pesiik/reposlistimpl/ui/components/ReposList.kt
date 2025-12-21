@@ -22,7 +22,7 @@ import mc.pesiik.reposlistimpl.R
 import mc.pesiik.reposlistimpl.view.ReposListState
 
 @Composable
-fun ReposList(
+internal fun ReposList(
     state: ReposListState,
     onItemClick: (Int) -> Unit,
     onLastItemVisible: (Int) -> Unit,

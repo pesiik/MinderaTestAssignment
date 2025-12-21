@@ -5,7 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Test
 
-class RepoDetailStateMapperTest {
+internal class RepoDetailStateMapperTest {
 
     private val mapper = RepoDetailStateMapper()
 

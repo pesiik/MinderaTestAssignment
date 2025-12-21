@@ -47,7 +47,7 @@ import mc.pesiik.reposlistimpl.R
 import mc.pesiik.reposlistimpl.view.RepoUiModel
 
 @Composable
-fun RepoCard(
+internal fun RepoCard(
     repo: RepoUiModel,
     modifier: Modifier = Modifier,
     onClick: (Int) -> Unit,

@@ -4,7 +4,7 @@ import mc.pesiik.reposlistapi.domain.Repo
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ReposMapperTest {
+internal class ReposMapperTest {
 
     private val mapper = ReposMapper()
 

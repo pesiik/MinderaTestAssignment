@@ -6,7 +6,7 @@ import mc.pesiik.repodetailsapi.domain.model.RepoDetails
 import mc.pesiik.reposlistapi.domain.Repo
 import javax.inject.Inject
 
-class RepoDetailsRepositoryImpl @Inject constructor(
+internal class RepoDetailsRepositoryImpl @Inject constructor(
     private val temporaryCache: TemporaryCache,
     private val gitRepoDetailService: GitRepoDetailService,
     private val repoDetailsMapper: RepoDetailsMapper,

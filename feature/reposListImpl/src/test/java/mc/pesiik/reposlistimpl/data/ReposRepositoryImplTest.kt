@@ -9,7 +9,7 @@ import mc.pesiik.reposlistapi.domain.Repo
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ReposRepositoryImplTest {
+internal class ReposRepositoryImplTest {
 
     private val service: GitReposService = mockk()
     private val mapper: ReposMapper = mockk()

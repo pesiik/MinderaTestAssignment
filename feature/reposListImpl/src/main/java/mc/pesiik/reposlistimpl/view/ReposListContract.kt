@@ -1,7 +1,7 @@
 package mc.pesiik.reposlistimpl.view
 
 
-sealed class ReposListScreenEvent {
+internal sealed class ReposListScreenEvent {
     data class SearchRepos(val query: String) : ReposListScreenEvent()
     data class ToggleSearchMode(val isInSearchMode: Boolean) : ReposListScreenEvent()
     data class ScrollReposList(val lastVisiblePosition: Int) : ReposListScreenEvent()
@@ -11,7 +11,7 @@ sealed class ReposListScreenEvent {
     data object BackButtonClicked : ReposListScreenEvent()
 }
 
-data class ReposListState(
+internal data class ReposListState(
     val repos: List<RepoUiModel> = emptyList(),
     val isInSearchMode: Boolean = false,
     val searchQuery: String = "",
@@ -24,7 +24,7 @@ data class ReposListState(
     val isError = errorMessage != null
 }
 
-data class RepoUiModel(
+internal data class RepoUiModel(
     val isShimmer: Boolean = true,
     val id: Int = 0,
     val name: String = "",
@@ -35,7 +35,7 @@ data class RepoUiModel(
     val language: String? = null,
 )
 
-enum class ReposSortOption(val value: String?) {
+internal enum class ReposSortOption(val value: String?) {
     STARS("stars"),
     FORKS("forks"),
     UPDATED("updated"),

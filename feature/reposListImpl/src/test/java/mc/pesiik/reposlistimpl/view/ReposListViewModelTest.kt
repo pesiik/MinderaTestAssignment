@@ -22,7 +22,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ReposListViewModelTest {
+internal class ReposListViewModelTest {
 
     private val repository: ReposRepository = mockk()
     private val mapper: ReposListStateMapper = mockk()

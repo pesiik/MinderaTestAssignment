@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
 @HiltViewModel
-class ReposListViewModel @Inject constructor(
+internal class ReposListViewModel @Inject constructor(
     private val reposRepository: ReposRepository,
     private val reposListStateMapper: ReposListStateMapper,
 ) : ViewModel() {

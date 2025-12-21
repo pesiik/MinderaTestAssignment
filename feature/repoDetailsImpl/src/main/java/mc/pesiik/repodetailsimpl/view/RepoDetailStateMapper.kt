@@ -3,7 +3,7 @@ package mc.pesiik.repodetailsimpl.view
 import mc.pesiik.repodetailsapi.domain.model.RepoDetails
 import javax.inject.Inject
 
-class RepoDetailStateMapper @Inject constructor() {
+internal class RepoDetailStateMapper @Inject constructor() {
 
     fun mapToUiState(repo: RepoDetails): RepoDetailUiState {
         return RepoDetailUiState(
