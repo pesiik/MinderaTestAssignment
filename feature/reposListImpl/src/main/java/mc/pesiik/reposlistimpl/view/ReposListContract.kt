@@ -25,8 +25,8 @@ internal data class ReposListState(
 }
 
 internal data class RepoUiModel(
+    val id: Int,
     val isShimmer: Boolean = true,
-    val id: Int = 0,
     val name: String = "",
     val ownerLogin: String = "",
     val ownerAvatarUrl: String = "",

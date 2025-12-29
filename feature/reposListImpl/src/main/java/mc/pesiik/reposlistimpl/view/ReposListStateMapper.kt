@@ -32,7 +32,7 @@ internal class ReposListStateMapper @Inject constructor() {
         isPaginating: Boolean,
     ): List<RepoUiModel> {
         val previous = previousState.repos.takeIf { isPaginating }.orEmpty()
-        return previous + List(count) { RepoUiModel(isShimmer = true) }
+        return previous + List(count) { index -> RepoUiModel(id = index, isShimmer = true) }
     }
 
     private fun mapReposToUIList(repos: List<Repo>): List<RepoUiModel> {

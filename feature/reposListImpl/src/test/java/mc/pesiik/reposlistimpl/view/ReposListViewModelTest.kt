@@ -48,7 +48,7 @@ internal class ReposListViewModelTest {
             starCount = 42,
             language = "Kotlin",
         )
-        val shimmerModels = List(5) { RepoUiModel(isShimmer = true) }
+        val shimmerModels = List(5) { RepoUiModel(id= 0, isShimmer = true) }
         val expectedState = ReposListState(repos = listOf(uiModel), searchQuery = "org")
 
         coEvery {
@@ -86,7 +86,7 @@ internal class ReposListViewModelTest {
         Dispatchers.setMain(dispatcher)
 
         val error = RuntimeException("network")
-        val shimmerModels = List(5) { RepoUiModel(isShimmer = true) }
+        val shimmerModels = List(5) { RepoUiModel(id = 0, isShimmer = true) }
         val expectedState = ReposListState(errorMessage = "mapped error", searchQuery = "org")
 
         coEvery {
@@ -190,7 +190,7 @@ internal class ReposListViewModelTest {
             starCount = 20,
             language = "Java",
         )
-        val shimmerModels = List(5) { RepoUiModel(isShimmer = true) }
+        val shimmerModels = List(5) { RepoUiModel(id = 0, isShimmer = true) }
         val initialState = ReposListState(
             repos = listOf(initialUiModel),
             searchQuery = "test"
@@ -403,7 +403,7 @@ internal class ReposListViewModelTest {
             starCount = 50,
             language = "Kotlin",
         )
-        val shimmerModels = List(5) { RepoUiModel(isShimmer = true) }
+        val shimmerModels = List(5) { RepoUiModel(id = 0, isShimmer = true) }
         val errorState = ReposListState(
             errorMessage = "network error",
             searchQuery = "test"

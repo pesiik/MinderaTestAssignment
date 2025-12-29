@@ -263,7 +263,7 @@ internal class ReposListStateMapperTest {
             language = "Kotlin",
             isShimmer = false,
         )
-        val shimmerRepo = RepoUiModel(isShimmer = true)
+        val shimmerRepo = RepoUiModel(id = 0, isShimmer = true)
         val previousState = ReposListState(repos = listOf(realRepo, shimmerRepo))
 
         val newRepo = Repo(

@@ -61,8 +61,11 @@ internal fun ReposList(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
 
-        ) {
-            items(state.repos.size) { index ->
+            ) {
+            items(
+                count = state.repos.size,
+                key = { index -> state.repos[index].id }
+            ) { index ->
                 val repo = state.repos[index]
                 RepoCard(
                     repo = repo,
