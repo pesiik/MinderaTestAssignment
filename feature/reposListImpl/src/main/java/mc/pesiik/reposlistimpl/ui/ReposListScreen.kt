@@ -77,7 +77,7 @@ internal fun ReposScreenList(
                     SearchAppBar(
                         state = state,
                         onQueryChange = { query ->
-                            viewModel.onEvent(ReposListScreenEvent.SearchRepos(query))
+                            viewModel.onEvent(ReposListScreenEvent.SearchRepos(query = query.text))
                         },
                         onSearchModeToggle = { isInSearchMode ->
                             viewModel.onEvent(ReposListScreenEvent.ToggleSearchMode(isInSearchMode))

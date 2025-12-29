@@ -21,12 +21,17 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 import mc.pesiik.reposlistimpl.R
 import mc.pesiik.reposlistimpl.view.ReposListState
@@ -35,7 +40,7 @@ import mc.pesiik.reposlistimpl.view.ReposListState
 @Composable
 internal fun SearchAppBar(
     state: ReposListState,
-    onQueryChange: (String) -> Unit,
+    onQueryChange: (TextFieldValue) -> Unit,
     onSearchModeToggle: (Boolean) -> Unit,
     onSortClicked: () -> Unit,
     onBackClicked: () -> Unit,
@@ -55,7 +60,7 @@ internal fun SearchAppBar(
         ) {
             BackButton(onBackClicked = onBackClicked)
             AppBarWithSearchAndTitle(
-                state = state,
+                searchQuery = state.searchQuery,
                 onQueryChange = onQueryChange,
                 focusRequester = focusRequester
             )
@@ -103,10 +108,15 @@ private fun BackButton(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppBarWithSearchAndTitle(
-    state: ReposListState,
+    searchQuery: String,
     focusRequester: FocusRequester,
-    onQueryChange: (String) -> Unit,
+    onQueryChange: (TextFieldValue) -> Unit,
 ) {
+    val repoTypedQuery by rememberSaveable(searchQuery, stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(
+            TextFieldValue(text = searchQuery, selection = TextRange(searchQuery.length))
+        )
+    }
     TextField(
         modifier = Modifier
             .wrapContentWidth()
@@ -125,7 +135,7 @@ private fun AppBarWithSearchAndTitle(
                 backgroundColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.4f)
             )
         ),
-        value = state.searchQuery,
+        value = repoTypedQuery,
         onValueChange = onQueryChange,
         singleLine = true,
         textStyle = MaterialTheme.typography.titleLarge,
