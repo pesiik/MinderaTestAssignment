@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Share
@@ -23,12 +27,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaInstant
@@ -51,15 +60,60 @@ internal fun RepoDetailsContent(
             .background(color = MaterialTheme.colorScheme.primary)
             .safeDrawingPadding()
     ) {
+        Column {
+            RepoAuthorImage(ownerLogin = state.ownerLogin, ownerAvatarUrl = state.ownerAvatarUrl)
+            RepoStatisticsContent(state)
+        }
+    }
+}
+
+@Composable
+private fun RepoAuthorImage(ownerLogin: String?, ownerAvatarUrl: String?) {
+    if (ownerLogin != null) {
+        val primaryColor = MaterialTheme.colorScheme.primary
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .clip(
+                    RoundedCornerShape(bottomStart = 4.dp, bottomEnd = 4.dp)
+                )
+                .background(color = primaryColor)
+                .padding(bottom = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            RepoDescription(description = state.description)
-            RepoStatistics(state = state)
-            RepoLastUpdated(lastUpdated = state.lastUpdated)
+            AsyncImage(
+                model = ownerAvatarUrl,
+                contentDescription = stringResource(R.string.repo_details_owner_avatar),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = 8.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.FillBounds
+            )
+            Text(
+                text = stringResource(
+                    id = R.string.repo_details_owner_title,
+                    formatArgs = arrayOf(ownerLogin)
+                ),
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
         }
+    }
+}
+
+@Composable
+private fun RepoStatisticsContent(state: RepoDetailUiState) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        RepoDescription(description = state.description)
+        RepoStatistics(state = state)
+        RepoLastUpdated(lastUpdated = state.lastUpdated)
     }
 }
 

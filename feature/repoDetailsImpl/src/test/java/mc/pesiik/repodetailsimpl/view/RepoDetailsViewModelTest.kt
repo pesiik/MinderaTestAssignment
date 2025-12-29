@@ -43,7 +43,9 @@ internal class RepoDetailsViewModelTest {
             starsCount = 100,
             forksCount = 50,
             subscribersCount = 75,
-            lastUpdated = "2024-01-15T10:30:00Z"
+            lastUpdated = "2024-01-15T10:30:00Z",
+            ownerLogin = "owner",
+            ownerAvatarUrl = "http://example.com/avatar.png",
         )
         val expectedState = RepoDetailUiState(
             name = "TestRepo",
@@ -77,7 +79,9 @@ internal class RepoDetailsViewModelTest {
             starsCount = 200,
             forksCount = 100,
             subscribersCount = 150,
-            lastUpdated = "2024-02-20T14:45:00Z"
+            lastUpdated = "2024-02-20T14:45:00Z",
+            ownerLogin = "owner",
+            ownerAvatarUrl = "http://example.com/avatar.png",
         )
         val expectedState = RepoDetailUiState(
             name = "RepoWithoutDescription",

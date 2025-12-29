@@ -42,10 +42,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.hilt.navigation.compose)
 
-
     // --- Compose UI ---
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.material3)
+
+    // Image loading: Coil Compose
+    implementation(libs.coil.compose)
 
     // --- Other dependencies ---
     implementation(libs.kotlinx.datetime)

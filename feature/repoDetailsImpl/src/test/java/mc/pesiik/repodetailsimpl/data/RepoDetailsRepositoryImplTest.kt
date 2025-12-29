@@ -47,7 +47,9 @@ internal class RepoDetailsRepositoryImplTest {
             starsCount = 100,
             forksCount = 50,
             subscribersCount = 75,
-            lastUpdated = "2024-01-15T10:30:00Z"
+            lastUpdated = "2024-01-15T10:30:00Z",
+            ownerLogin = "owner",
+            ownerAvatarUrl = "http://example.com/avatar.png",
         )
         val dto = RepoDetailsDto(
             name = "TestRepo",
@@ -61,7 +63,13 @@ internal class RepoDetailsRepositoryImplTest {
         coEvery {
             gitRepoDetailService.getRepo(expectedRepo.ownerLogin, expectedRepo.name)
         } returns dto
-        every { mapper.mapDtoToDomain(dto) } returns expectedRepoDetails
+        every {
+            mapper.mapDtoToDomain(
+                repoDto = dto,
+                ownerLogin = expectedRepo.ownerLogin,
+                ownerAvatarUrl = expectedRepo.ownerAvatarUrl
+            )
+        } returns expectedRepoDetails
 
         // When
         val result = repository.getRepoDetails(repoId)

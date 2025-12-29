@@ -13,6 +13,8 @@ internal class RepoDetailStateMapper @Inject constructor() {
             starsCount = repo.starsCount,
             subscribersCount = repo.subscribersCount,
             lastUpdated = repo.lastUpdated,
+            ownerLogin = repo.ownerLogin,
+            ownerAvatarUrl = repo.ownerAvatarUrl,
             isLoading = false,
         )
     }

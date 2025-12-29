@@ -27,7 +27,11 @@ internal class RepoDetailsMapperTest {
         )
 
         // When
-        val result = mapper.mapDtoToDomain(dto)
+        val result = mapper.mapDtoToDomain(
+            repoDto = dto,
+            ownerLogin = "owner",
+            ownerAvatarUrl = "http://example.com/avatar.png"
+        )
 
         // Then
         assertEquals("TestRepo", result.name)
@@ -36,5 +40,7 @@ internal class RepoDetailsMapperTest {
         assertEquals(50, result.forksCount)
         assertEquals("2024-01-01T00:00:00Z", result.lastUpdated)
         assertEquals(25, result.subscribersCount)
+        assertEquals("owner", result.ownerLogin)
+        assertEquals("http://example.com/avatar.png", result.ownerAvatarUrl)
     }
 }

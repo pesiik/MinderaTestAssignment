@@ -7,5 +7,7 @@ internal data class RepoDetailUiState(
     val starsCount: Int = 0,
     val subscribersCount: Int = 0,
     val lastUpdated: String = "",
+    val ownerLogin: String? = null,
+    val ownerAvatarUrl: String? = null,
     val isLoading: Boolean = true,
 )

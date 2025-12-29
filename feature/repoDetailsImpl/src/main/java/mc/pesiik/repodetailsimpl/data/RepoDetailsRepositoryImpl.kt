@@ -17,6 +17,10 @@ internal class RepoDetailsRepositoryImpl @Inject constructor(
             "Repo cannot be null at this point. Repo id: $repoId"
         }
         val repoDto = gitRepoDetailService.getRepo(repo.ownerLogin, repo.name)
-        return repoDetailsMapper.mapDtoToDomain(repoDto)
+        return repoDetailsMapper.mapDtoToDomain(
+            repoDto = repoDto,
+            ownerLogin = repo.ownerLogin,
+            ownerAvatarUrl = repo.ownerAvatarUrl
+        )
     }
 }
