@@ -14,7 +14,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import mc.pesiik.reposlistapi.domain.Repo
-import mc.pesiik.reposlistapi.domain.ReposRepository
+import mc.pesiik.reposlistimpl.interactor.SearchReposOrPaginateInteractor
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -24,7 +24,7 @@ import org.junit.jupiter.params.provider.EnumSource
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ReposListViewModelTest {
 
-    private val repository: ReposRepository = mockk()
+    private val interactor: SearchReposOrPaginateInteractor = mockk()
     private val mapper: ReposListStateMapper = mockk()
 
     @After
@@ -52,10 +52,10 @@ internal class ReposListViewModelTest {
         val expectedState = ReposListState(repos = listOf(uiModel), searchQuery = "org")
 
         coEvery {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "org",
-                perPage = 30,
                 page = 1,
+                sort = null,
             )
         } returns listOf(repo)
         every {
@@ -73,7 +73,7 @@ internal class ReposListViewModelTest {
             )
         } returns expectedState
 
-        val vm = ReposListViewModel(repository, mapper)
+        val vm = ReposListViewModel(interactor, mapper)
         vm.onEvent(ReposListScreenEvent.SearchRepos("org"))
         advanceTimeBy(501L)
 
@@ -90,10 +90,10 @@ internal class ReposListViewModelTest {
         val expectedState = ReposListState(errorMessage = "mapped error", searchQuery = "org")
 
         coEvery {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "org",
-                perPage = 30,
                 page = 1,
+                sort = null,
             )
         } throws error
         every {
@@ -111,7 +111,7 @@ internal class ReposListViewModelTest {
             )
         } returns expectedState
 
-        val vm = ReposListViewModel(repository, mapper)
+        val vm = ReposListViewModel(interactor, mapper)
         vm.onEvent(ReposListScreenEvent.SearchRepos("org"))
         advanceTimeBy(501L)
 
@@ -123,7 +123,7 @@ internal class ReposListViewModelTest {
         val dispatcher = StandardTestDispatcher(testScheduler)
         Dispatchers.setMain(dispatcher)
 
-        val vm = ReposListViewModel(repository, mapper)
+        val vm = ReposListViewModel(interactor, mapper)
 
         vm.onEvent(ReposListScreenEvent.ToggleSearchMode(true))
 
@@ -140,7 +140,7 @@ internal class ReposListViewModelTest {
         val dispatcher = StandardTestDispatcher(testScheduler)
         Dispatchers.setMain(dispatcher)
 
-        val vm = ReposListViewModel(repository, mapper)
+        val vm = ReposListViewModel(interactor, mapper)
         vm.onEvent(ReposListScreenEvent.ToggleSearchMode(true))
 
         vm.onEvent(ReposListScreenEvent.BackButtonClicked)
@@ -155,7 +155,7 @@ internal class ReposListViewModelTest {
         val dispatcher = StandardTestDispatcher(testScheduler)
         Dispatchers.setMain(dispatcher)
 
-        val vm = ReposListViewModel(repository, mapper)
+        val vm = ReposListViewModel(interactor, mapper)
 
         vm.onEvent(ReposListScreenEvent.BackButtonClicked)
         advanceUntilIdle()
@@ -201,19 +201,25 @@ internal class ReposListViewModelTest {
         )
 
         coEvery {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "test",
-                perPage = 30,
                 page = 1,
+                sort = null,
             )
         } returns listOf(repo1)
         coEvery {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "test",
-                perPage = 30,
                 page = 2,
+                sort = null,
             )
         } returns listOf(repo2)
+        every {
+            interactor.hasToPaginate(
+                lastVisiblePosition = 15,
+                currentPage = 1
+            )
+        } returns true
         every {
             mapper.shimmerRepoModels(
                 count = 5,
@@ -236,7 +242,7 @@ internal class ReposListViewModelTest {
             )
         } returns paginatedState
 
-        val vm = ReposListViewModel(repository, mapper)
+        val vm = ReposListViewModel(interactor, mapper)
         vm.onEvent(ReposListScreenEvent.SearchRepos("test"))
         advanceTimeBy(501L)
 
@@ -269,12 +275,18 @@ internal class ReposListViewModelTest {
         )
 
         coEvery {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "test",
-                perPage = 30,
                 page = 1,
+                sort = null,
             )
         } returns listOf(repo)
+        every {
+            interactor.hasToPaginate(
+                lastVisiblePosition = 10,
+                currentPage = 1
+            )
+        } returns false
         every {
             mapper.mapDomainToUIState(
                 domain = Result.success(listOf(repo)),
@@ -290,20 +302,19 @@ internal class ReposListViewModelTest {
             )
         } returns emptyList()
 
-        val vm = ReposListViewModel(repository, mapper)
+        val vm = ReposListViewModel(interactor, mapper)
         vm.onEvent(ReposListScreenEvent.SearchRepos("test"))
         advanceTimeBy(501L)
 
-        // Scroll to position 10 (below START_PAGINATION_STEP threshold of 15)
         vm.onEvent(ReposListScreenEvent.ScrollReposList(10))
         advanceUntilIdle()
 
         assertEquals(initialState, vm.state.value)
         coVerify(exactly = 0) {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "test",
-                perPage = 30,
                 page = 2,
+                sort = null,
             )
         }
     }
@@ -338,17 +349,15 @@ internal class ReposListViewModelTest {
         )
 
         coEvery {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "test",
-                perPage = 30,
                 page = 1,
                 sort = null
             )
         } returns listOf(repo)
         coEvery {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "test",
-                perPage = 30,
                 page = 1,
                 sort = sortOption.value
             )
@@ -368,7 +377,7 @@ internal class ReposListViewModelTest {
             )
         } returns sortedState
 
-        val vm = ReposListViewModel(repository, mapper)
+        val vm = ReposListViewModel(interactor, mapper)
         vm.onEvent(ReposListScreenEvent.SearchRepos("test"))
         advanceTimeBy(501L)
 
@@ -379,9 +388,8 @@ internal class ReposListViewModelTest {
         assertEquals(ReposSortOption.STARS, vm.state.value.selectedSortOption)
         assertEquals(false, vm.state.value.isSortMenuOpened)
         coVerify {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "test",
-                perPage = 30,
                 page = 1,
                 sort = sortOption.value
             )
@@ -415,10 +423,10 @@ internal class ReposListViewModelTest {
 
         val error = RuntimeException("network")
         coEvery {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "test",
-                perPage = 30,
                 page = 1,
+                sort = null,
             )
         } throws error andThen listOf(repo)
 
@@ -446,7 +454,7 @@ internal class ReposListViewModelTest {
             )
         } returns successState
 
-        val vm = ReposListViewModel(repository, mapper)
+        val vm = ReposListViewModel(interactor, mapper)
         vm.onEvent(ReposListScreenEvent.SearchRepos("test"))
         advanceTimeBy(501L)
 
@@ -457,10 +465,10 @@ internal class ReposListViewModelTest {
 
         assertEquals(successState, vm.state.value)
         coVerify(exactly = 2) {
-            repository.searchRepos(
+            interactor.searchRepos(
                 query = "test",
-                perPage = 30,
                 page = 1,
+                sort = null,
             )
         }
     }

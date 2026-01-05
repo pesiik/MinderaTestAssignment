@@ -11,11 +11,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import mc.pesiik.repodetailsapi.domain.RepoDetailsRepository
+import mc.pesiik.repodetailsimpl.interactor.RepoDetailsInteractor
 
 @HiltViewModel(assistedFactory = RepoDetailsViewModel.Factory::class)
 internal class RepoDetailsViewModel @AssistedInject constructor(
     @Assisted private val repoId: Int,
-    private val repoDetailsRepository: RepoDetailsRepository,
+    private val repoDetailsInteractor: RepoDetailsInteractor,
     private val repoDetailStateMapper: RepoDetailStateMapper,
 ) : ViewModel() {
 
@@ -30,8 +31,12 @@ internal class RepoDetailsViewModel @AssistedInject constructor(
     private fun loadRepoDetails() {
         // todo handle errors
         viewModelScope.launch {
-            val repo = repoDetailsRepository.getRepoDetails(repoId)
-            val uiState = repoDetailStateMapper.mapToUiState(repo)
+            val (repo, details) = repoDetailsInteractor.getRepoDetails(repoId)
+            val uiState = repoDetailStateMapper.mapToUiState(
+                details = details,
+                ownerLogin = repo.ownerLogin,
+                ownerAvatarUrl = repo.ownerAvatarUrl,
+            )
             _state.value = uiState
         }
     }

@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import mc.pesiik.reposlistapi.domain.Repo
-import mc.pesiik.reposlistapi.domain.ReposRepository
 import mc.pesiik.presentation.viewmodel.launchCatching
+import mc.pesiik.reposlistimpl.interactor.SearchReposOrPaginateInteractor
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
 @HiltViewModel
 internal class ReposListViewModel @Inject constructor(
-    private val reposRepository: ReposRepository,
+    private val searchReposOrPaginateInteractor: SearchReposOrPaginateInteractor,
     private val reposListStateMapper: ReposListStateMapper,
 ) : ViewModel() {
 
@@ -79,9 +79,8 @@ internal class ReposListViewModel @Inject constructor(
         val sortOption = _state.value.selectedSortOption
         launchCatching(
             block = {
-                reposRepository.searchRepos(
+                searchReposOrPaginateInteractor.searchRepos(
                     query = query,
-                    perPage = PER_PAGE_COUNT,
                     page = page,
                     sort = sortOption.value
                 )
@@ -123,8 +122,10 @@ internal class ReposListViewModel @Inject constructor(
     }
 
     private fun tryToLoadNextPage(lastVisiblePosition: Int) {
-        val lastIndex = PER_PAGE_COUNT * pageMutableState.value - START_PAGINATION_STEP
-        val hasToPaginate = lastVisiblePosition >= lastIndex
+        val hasToPaginate = searchReposOrPaginateInteractor.hasToPaginate(
+            lastVisiblePosition = lastVisiblePosition,
+            currentPage = pageMutableState.value
+        )
         if (hasToPaginate) {
             pageMutableState.update { currentPage ->
                 currentPage + 1
@@ -176,8 +177,6 @@ internal class ReposListViewModel @Inject constructor(
 
     companion object {
         private const val DEBOUNCE_MILLIS = 500L
-        private const val PER_PAGE_COUNT = 30
-        private const val START_PAGINATION_STEP = 15
         private const val SHIMMERS_COUNT = 5
     }
 }

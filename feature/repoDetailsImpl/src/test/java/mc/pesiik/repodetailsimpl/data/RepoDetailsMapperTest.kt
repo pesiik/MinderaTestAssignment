@@ -1,5 +1,6 @@
 package mc.pesiik.repodetailsimpl.data
 
+import mc.pesiik.repodetailsapi.domain.model.RepoDetails
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -25,22 +26,21 @@ internal class RepoDetailsMapperTest {
             updatedAt = "2024-01-01T00:00:00Z",
             subscribersCount = 25
         )
+        val expected = RepoDetails(
+            name = "TestRepo",
+            description = "Test description",
+            starsCount = 100,
+            forksCount = 50,
+            lastUpdated = "2024-01-01T00:00:00Z",
+            subscribersCount = 25
+        )
 
         // When
         val result = mapper.mapDtoToDomain(
             repoDto = dto,
-            ownerLogin = "owner",
-            ownerAvatarUrl = "http://example.com/avatar.png"
         )
 
         // Then
-        assertEquals("TestRepo", result.name)
-        assertEquals("Test description", result.description)
-        assertEquals(100, result.starsCount)
-        assertEquals(50, result.forksCount)
-        assertEquals("2024-01-01T00:00:00Z", result.lastUpdated)
-        assertEquals(25, result.subscribersCount)
-        assertEquals("owner", result.ownerLogin)
-        assertEquals("http://example.com/avatar.png", result.ownerAvatarUrl)
+        assertEquals(expected, result)
     }
 }

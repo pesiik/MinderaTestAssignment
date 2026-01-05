@@ -6,8 +6,6 @@ import javax.inject.Inject
 internal class RepoDetailsMapper @Inject constructor() {
     fun mapDtoToDomain(
         repoDto: RepoDetailsDto,
-        ownerLogin: String,
-        ownerAvatarUrl: String,
     ): RepoDetails {
         return RepoDetails(
             name = repoDto.name,
@@ -16,8 +14,6 @@ internal class RepoDetailsMapper @Inject constructor() {
             forksCount = repoDto.forksCount,
             lastUpdated = repoDto.updatedAt,
             subscribersCount = repoDto.subscribersCount,
-            ownerLogin = ownerLogin,
-            ownerAvatarUrl = ownerAvatarUrl,
         )
     }
 }

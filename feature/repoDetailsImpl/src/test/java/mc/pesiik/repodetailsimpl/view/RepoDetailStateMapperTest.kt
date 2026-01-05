@@ -12,19 +12,21 @@ internal class RepoDetailStateMapperTest {
     @Test
     fun `WHEN map repo to ui state THEN return correct ui state`() {
         // Given
-        val repo = RepoDetails(
+        val details = RepoDetails(
             name = "TestRepo",
             description = "Test description",
             starsCount = 100,
             forksCount = 50,
             subscribersCount = 75,
             lastUpdated = "2024-01-15T10:30:00Z",
-            ownerLogin = "owner",
-            ownerAvatarUrl = "http://example.com/avatar.png"
         )
 
         // When
-        val uiState = mapper.mapToUiState(repo)
+        val uiState = mapper.mapToUiState(
+            details = details,
+            ownerLogin = "owner",
+            ownerAvatarUrl = "http://example.com/avatar.png"
+        )
 
         // Then
         val expectedState = RepoDetailUiState(
@@ -45,28 +47,34 @@ internal class RepoDetailStateMapperTest {
     @Test
     fun `WHEN map repo with null description THEN return ui state with null description`() {
         // Given
-        val repo = RepoDetails(
+        val details = RepoDetails(
             name = "RepoWithoutDescription",
             description = null,
             starsCount = 200,
             forksCount = 100,
             subscribersCount = 150,
             lastUpdated = "2024-02-20T14:45:00Z",
+        )
+        val expectedState = RepoDetailUiState(
+            name = "RepoWithoutDescription",
+            description = null,
+            forksCount = 100,
+            starsCount = 200,
+            subscribersCount = 150,
+            lastUpdated = "2024-02-20T14:45:00Z",
+            ownerLogin = "owner",
+            ownerAvatarUrl = "http://example.com/avatar.png",
+            isLoading = false
+        )
+
+        // When
+        val uiState = mapper.mapToUiState(
+            details = details,
             ownerLogin = "owner",
             ownerAvatarUrl = "http://example.com/avatar.png"
         )
 
-        // When
-        val uiState = mapper.mapToUiState(repo)
-
         // Then
-        assertEquals("RepoWithoutDescription", uiState.name)
-        assertEquals(null, uiState.description)
-        assertEquals(100, uiState.forksCount)
-        assertEquals(200, uiState.starsCount)
-        assertEquals(150, uiState.subscribersCount)
-        assertFalse(uiState.isLoading)
-        assertEquals(uiState.ownerLogin, repo.ownerLogin)
-        assertEquals(uiState.ownerAvatarUrl, repo.ownerAvatarUrl)
+        assertEquals(expectedState, uiState)
     }
 }

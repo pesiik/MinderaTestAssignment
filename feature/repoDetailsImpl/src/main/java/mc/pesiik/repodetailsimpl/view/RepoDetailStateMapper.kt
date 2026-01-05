@@ -5,16 +5,20 @@ import javax.inject.Inject
 
 internal class RepoDetailStateMapper @Inject constructor() {
 
-    fun mapToUiState(repo: RepoDetails): RepoDetailUiState {
+    fun mapToUiState(
+        details: RepoDetails,
+        ownerLogin: String,
+        ownerAvatarUrl: String,
+    ): RepoDetailUiState {
         return RepoDetailUiState(
-            name = repo.name,
-            description = repo.description,
-            forksCount = repo.forksCount,
-            starsCount = repo.starsCount,
-            subscribersCount = repo.subscribersCount,
-            lastUpdated = repo.lastUpdated,
-            ownerLogin = repo.ownerLogin,
-            ownerAvatarUrl = repo.ownerAvatarUrl,
+            name = details.name,
+            description = details.description,
+            forksCount = details.forksCount,
+            starsCount = details.starsCount,
+            subscribersCount = details.subscribersCount,
+            lastUpdated = details.lastUpdated,
+            ownerLogin = ownerLogin,
+            ownerAvatarUrl = ownerAvatarUrl,
             isLoading = false,
         )
     }

@@ -7,6 +7,4 @@ data class RepoDetails(
     val forksCount: Int,
     val starsCount: Int,
     val lastUpdated: String,
-    val ownerLogin: String,
-    val ownerAvatarUrl: String,
 )

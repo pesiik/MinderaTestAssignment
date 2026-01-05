@@ -13,34 +13,20 @@ import org.junit.Test
 
 internal class RepoDetailsRepositoryImplTest {
 
-    private lateinit var temporaryCache: TemporaryCache
     private lateinit var gitRepoDetailService: GitRepoDetailService
     private lateinit var mapper: RepoDetailsMapper
     private lateinit var repository: RepoDetailsRepositoryImpl
 
     @Before
     fun setup() {
-        temporaryCache = mockk()
         gitRepoDetailService = mockk()
         mapper = mockk()
-        repository = RepoDetailsRepositoryImpl(temporaryCache, gitRepoDetailService, mapper)
+        repository = RepoDetailsRepositoryImpl(gitRepoDetailService, mapper)
     }
 
     @Test
     fun `WHEN getRepoDetails with valid id THEN return repo from cache`() = runTest {
         // Given
-        val repoId = 123
-        val expectedRepo = Repo(
-            id = repoId,
-            name = "TestRepo",
-            ownerLogin = "owner",
-            ownerAvatarUrl = "http://example.com/avatar.png",
-            description = "Test description",
-            starsCount = 100,
-            language = "Kotlin",
-            forksCount = 50,
-            lastUpdated = "2024-01-15T10:30:00Z"
-        )
         val expectedRepoDetails = RepoDetails(
             name = "TestRepo",
             description = "Test description",
@@ -48,8 +34,6 @@ internal class RepoDetailsRepositoryImplTest {
             forksCount = 50,
             subscribersCount = 75,
             lastUpdated = "2024-01-15T10:30:00Z",
-            ownerLogin = "owner",
-            ownerAvatarUrl = "http://example.com/avatar.png",
         )
         val dto = RepoDetailsDto(
             name = "TestRepo",
@@ -59,20 +43,18 @@ internal class RepoDetailsRepositoryImplTest {
             subscribersCount = 75,
             updatedAt = "2024-01-15T10:30:00Z"
         )
-        every { (temporaryCache.getById<Repo>(repoId)) } returns expectedRepo
         coEvery {
-            gitRepoDetailService.getRepo(expectedRepo.ownerLogin, expectedRepo.name)
+            gitRepoDetailService.getRepo("owner", "repo")
         } returns dto
         every {
-            mapper.mapDtoToDomain(
-                repoDto = dto,
-                ownerLogin = expectedRepo.ownerLogin,
-                ownerAvatarUrl = expectedRepo.ownerAvatarUrl
-            )
+            mapper.mapDtoToDomain(repoDto = dto)
         } returns expectedRepoDetails
 
         // When
-        val result = repository.getRepoDetails(repoId)
+        val result = repository.getRepoDetails(
+            owner = "owner",
+            repo = "repo"
+        )
 
         // Then
         Assert.assertEquals(expectedRepoDetails, result)
