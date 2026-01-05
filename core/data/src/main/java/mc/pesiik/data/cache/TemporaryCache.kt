@@ -1,4 +1,4 @@
-package mc.pesiik.cache
+package mc.pesiik.data.cache
 
 import javax.inject.Inject
 

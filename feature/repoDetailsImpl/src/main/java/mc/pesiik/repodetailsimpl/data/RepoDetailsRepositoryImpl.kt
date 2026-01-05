@@ -1,6 +1,6 @@
 package mc.pesiik.repodetailsimpl.data
 
-import mc.pesiik.cache.TemporaryCache
+import mc.pesiik.data.cache.TemporaryCache
 import mc.pesiik.repodetailsapi.domain.RepoDetailsRepository
 import mc.pesiik.repodetailsapi.domain.model.RepoDetails
 import mc.pesiik.reposlistapi.domain.Repo

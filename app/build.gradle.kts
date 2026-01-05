@@ -74,10 +74,10 @@ dependencies {
     implementation(project(":feature:repoDetailsImpl"))
     implementation(project(":feature:reposListApi"))
     implementation(project(":feature:reposListImpl"))
-    implementation(project(":core:cache"))
+    implementation(project(":core:data"))
     implementation(project(":core:navigation"))
     implementation(project(":core:resources"))
-    implementation(project(":core:viewmodel"))
+    implementation(project(":core:presentation"))
 
     // --- BOMs ---
     implementation(platform(libs.androidx.compose.bom))

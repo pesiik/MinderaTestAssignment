@@ -51,10 +51,10 @@ dependencies {
     implementation(libs.coil.compose)
 
     // --- Feature dependencies ---
-    implementation(project(":core:cache"))
+    implementation(project(":core:data"))
     implementation(project(":core:navigation"))
     implementation(project(":core:resources"))
-    implementation(project(":core:viewmodel"))
+    implementation(project(":core:presentation"))
     implementation(project(":feature:reposListApi"))
 
     // --- Unit tests ---

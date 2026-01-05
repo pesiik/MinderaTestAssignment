@@ -1,11 +1,13 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "mc.pesiik.pt_android_iliamashin.core.viewmodel"
-    compileSdk = 34
+    namespace = "mc.pesiik.data"
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -22,6 +24,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }

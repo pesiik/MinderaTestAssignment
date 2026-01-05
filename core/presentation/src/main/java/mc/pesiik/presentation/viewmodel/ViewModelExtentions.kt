@@ -1,4 +1,4 @@
-package mc.pesiik.viewmodel
+package mc.pesiik.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

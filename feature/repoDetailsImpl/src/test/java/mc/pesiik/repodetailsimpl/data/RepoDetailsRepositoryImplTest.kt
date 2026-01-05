@@ -4,7 +4,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import mc.pesiik.cache.TemporaryCache
+import mc.pesiik.data.cache.TemporaryCache
 import mc.pesiik.repodetailsapi.domain.model.RepoDetails
 import mc.pesiik.reposlistapi.domain.Repo
 import org.junit.Assert

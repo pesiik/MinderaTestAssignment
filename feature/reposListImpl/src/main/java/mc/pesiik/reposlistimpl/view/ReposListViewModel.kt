@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import mc.pesiik.reposlistapi.domain.Repo
 import mc.pesiik.reposlistapi.domain.ReposRepository
-import mc.pesiik.viewmodel.launchCatching
+import mc.pesiik.presentation.viewmodel.launchCatching
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)

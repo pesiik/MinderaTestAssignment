@@ -1,10 +1,10 @@
-package mc.pesiik.cache.di
+package mc.pesiik.data.cache.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import mc.pesiik.cache.TemporaryCache
+import mc.pesiik.data.cache.TemporaryCache
 import javax.inject.Singleton
 
 @Module
