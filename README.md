@@ -47,3 +47,5 @@
 - Have you used AI? 
 - [x] Yes
 - [ ] No
+
+**p.s: I decided to make api/impl modules based architecture instead of shared domain module, because I wanted to try this one**
