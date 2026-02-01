@@ -15,7 +15,10 @@ class RepoDetailsInteractor @Inject constructor(
         val repo = requireNotNull(temporaryCache.getById<Repo>(repoId)) {
             "Repo cannot be null at this point. Repo id: $repoId"
         }
-        val details = repoDetailsRepository.getRepoDetails(repo.ownerLogin, repo.name)
+        val details = repoDetailsRepository.getRepoDetails(
+            owner = repo.user.login,
+            repo = repo.name
+        )
         return repo to details
     }
 }

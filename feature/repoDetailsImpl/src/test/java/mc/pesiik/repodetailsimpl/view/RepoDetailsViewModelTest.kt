@@ -16,6 +16,7 @@ import kotlinx.coroutines.test.setMain
 import mc.pesiik.repodetailsapi.domain.model.RepoDetails
 import mc.pesiik.repodetailsimpl.interactor.RepoDetailsInteractor
 import mc.pesiik.reposlistapi.domain.Repo
+import mc.pesiik.reposlistapi.domain.User
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -44,8 +45,10 @@ internal class RepoDetailsViewModelTest {
             starsCount = 2,
             forksCount = 5,
             lastUpdated = "2024-01-10T12:00:00Z",
-            ownerLogin = "owner",
-            ownerAvatarUrl = "http://example.com/avatar.png",
+            user = User(
+                login = "owner",
+                avatarUrl = "http://example.com/avatar.png",
+            ),
             description = "Test description",
             language = "Kotlin",
         )
@@ -93,8 +96,10 @@ internal class RepoDetailsViewModelTest {
             starsCount = 10,
             forksCount = 5,
             lastUpdated = "2024-02-20T14:45:00Z",
-            ownerLogin = "owner",
-            ownerAvatarUrl = "http://example.com/avatar.png",
+            user = User(
+                login = "owner",
+                avatarUrl = "http://example.com/avatar.png",
+            ),
             description = null,
             language = "Kotlin",
         )

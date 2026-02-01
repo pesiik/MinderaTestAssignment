@@ -6,6 +6,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import mc.pesiik.reposlistapi.domain.Repo
 import mc.pesiik.reposlistapi.domain.ReposRepository
+import mc.pesiik.reposlistapi.domain.User
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -36,8 +37,10 @@ class SearchReposOrPaginateInteractorTest {
                 starsCount = 100,
                 forksCount = 50,
                 lastUpdated = "2024-01-10T12:00:00Z",
-                ownerLogin = "owner1",
-                ownerAvatarUrl = "https://example.com/avatar1.png",
+                user = User(
+                    login = "owner1",
+                    avatarUrl = "https://example.com/avatar1.png"
+                ),
                 description = "Test repo 1",
                 language = "Kotlin"
             )

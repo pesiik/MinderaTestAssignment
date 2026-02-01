@@ -43,8 +43,8 @@ internal class ReposListStateMapper @Inject constructor() {
         return RepoUiModel(
             id = repo.id,
             name = repo.name,
-            ownerLogin = repo.ownerLogin,
-            ownerAvatarUrl = repo.ownerAvatarUrl,
+            ownerLogin = repo.user.login,
+            ownerAvatarUrl = repo.user.avatarUrl,
             description = repo.description.orEmpty(),
             starCount = repo.starsCount,
             language = repo.language,

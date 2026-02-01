@@ -34,8 +34,8 @@ internal class RepoDetailsViewModel @AssistedInject constructor(
             val (repo, details) = repoDetailsInteractor.getRepoDetails(repoId)
             val uiState = repoDetailStateMapper.mapToUiState(
                 details = details,
-                ownerLogin = repo.ownerLogin,
-                ownerAvatarUrl = repo.ownerAvatarUrl,
+                ownerLogin = repo.user.login,
+                ownerAvatarUrl = repo.user.avatarUrl,
             )
             _state.value = uiState
         }

@@ -1,6 +1,7 @@
 package mc.pesiik.reposlistimpl.data
 
 import mc.pesiik.reposlistapi.domain.Repo
+import mc.pesiik.reposlistapi.domain.User
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -32,13 +33,15 @@ internal class ReposMapperTest {
         val expectedDomain = Repo(
             id = 0,
             name = "TestRepo",
-            ownerLogin = "TestOwner",
-            ownerAvatarUrl = "http://example.com/avatar.png",
+            user = User(
+                login = "TestOwner",
+                avatarUrl = "http://example.com/avatar.png"
+            ),
             description = "This is a test repository",
             starsCount = 10,
             language = "Kotlin",
             forksCount = 5,
-            lastUpdated = "2024-06-01T12:00:00Z"
+            lastUpdated = "2024-06-01T12:00:00Z",
         )
 
         assertEquals(expectedDomain, repoDomain)

@@ -6,8 +6,7 @@ data class Repo(
     val starsCount: Int,
     val forksCount: Int,
     val lastUpdated: String,
-    val ownerLogin: String,
-    val ownerAvatarUrl: String,
     val description: String?,
     val language: String?,
+    val user: User
 )

@@ -1,6 +1,7 @@
 package mc.pesiik.reposlistimpl.view
 
 import mc.pesiik.reposlistapi.domain.Repo
+import mc.pesiik.reposlistapi.domain.User
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -46,8 +47,10 @@ internal class ReposListStateMapperTest {
         val repo = Repo(
             id = 1,
             name = "NewRepo",
-            ownerLogin = "newOwner",
-            ownerAvatarUrl = "http://example.com/new.png",
+            user = User(
+                login = "newOwner",
+                avatarUrl = "http://example.com/new.png",
+            ),
             description = "New description",
             starsCount = 50,
             language = "Java",
@@ -89,8 +92,10 @@ internal class ReposListStateMapperTest {
         val repo = Repo(
             id = 2,
             name = "UpdatedRepo",
-            ownerLogin = "updatedOwner",
-            ownerAvatarUrl = "http://example.com/updated.png",
+            user = User(
+                login = "updatedOwner",
+                avatarUrl = "http://example.com/updated.png",
+            ),
             description = "Updated description",
             starsCount = 150,
             language = "Python",
@@ -156,8 +161,10 @@ internal class ReposListStateMapperTest {
         val newRepo = Repo(
             id = 2,
             name = "NewRepo",
-            ownerLogin = "newOwner",
-            ownerAvatarUrl = "http://example.com/new.png",
+            user = User(
+                login = "newOwner",
+                avatarUrl = "http://example.com/new.png",
+            ),
             description = "New description",
             starsCount = 50,
             language = "Java",
@@ -269,8 +276,10 @@ internal class ReposListStateMapperTest {
         val newRepo = Repo(
             id = 2,
             name = "NewRepo",
-            ownerLogin = "newOwner",
-            ownerAvatarUrl = "http://example.com/new.png",
+            user = User(
+                login = "newOwner",
+                avatarUrl = "http://example.com/new.png",
+            ),
             description = "New description",
             starsCount = 50,
             language = "Java",

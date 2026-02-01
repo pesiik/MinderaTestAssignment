@@ -8,6 +8,7 @@ import mc.pesiik.data.cache.TemporaryCache
 import mc.pesiik.repodetailsapi.domain.RepoDetailsRepository
 import mc.pesiik.repodetailsapi.domain.model.RepoDetails
 import mc.pesiik.reposlistapi.domain.Repo
+import mc.pesiik.reposlistapi.domain.User
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -35,8 +36,10 @@ class RepoDetailsInteractorTest {
             starsCount = 2,
             forksCount = 5,
             lastUpdated = "2024-01-10T12:00:00Z",
-            ownerLogin = "owner",
-            ownerAvatarUrl = "https://example.com/avatar.png",
+            user = User(
+                login = "owner",
+                avatarUrl = "https://example.com/avatar.png",
+            ),
             description = "Test description",
             language = "Kotlin"
         )
