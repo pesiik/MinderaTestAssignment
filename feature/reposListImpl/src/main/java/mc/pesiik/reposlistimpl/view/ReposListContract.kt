@@ -1,16 +1,32 @@
 package mc.pesiik.reposlistimpl.view
 
+import androidx.compose.runtime.Immutable
+
 
 internal sealed class ReposListScreenEvent {
+    @Immutable
     data class SearchRepos(val query: String) : ReposListScreenEvent()
+
+    @Immutable
     data class ToggleSearchMode(val isInSearchMode: Boolean) : ReposListScreenEvent()
+
+    @Immutable
     data class ScrollReposList(val lastVisiblePosition: Int) : ReposListScreenEvent()
+
+    @Immutable
     data object SortClicked : ReposListScreenEvent()
+
+    @Immutable
     data class SortedByOptionSelected(val sortOption: ReposSortOption) : ReposListScreenEvent()
+
+    @Immutable
     data object RetryLoadRepos : ReposListScreenEvent()
+
+    @Immutable
     data object BackButtonClicked : ReposListScreenEvent()
 }
 
+@Immutable
 internal data class ReposListState(
     val repos: List<RepoUiModel> = emptyList(),
     val isInSearchMode: Boolean = false,
@@ -24,6 +40,7 @@ internal data class ReposListState(
     val isError = errorMessage != null
 }
 
+@Immutable
 internal data class RepoUiModel(
     val id: Int,
     val isShimmer: Boolean = true,

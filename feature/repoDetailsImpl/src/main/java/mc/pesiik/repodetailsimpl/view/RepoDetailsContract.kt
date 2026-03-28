@@ -1,5 +1,8 @@
 package mc.pesiik.repodetailsimpl.view
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 internal data class RepoDetailUiState(
     val name: String = "",
     val description: String? = null,
